@@ -1,0 +1,890 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Webquills.net</title>
+    <subtitle>Develop effective web sites</subtitle>
+    <id>tag:www.webquills.net,2008-06-29:/scroll//4</id>
+    <updated>2009-11-24T23:52:51Z</updated>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/" />
+    <link rel="self" href="http://www.webquills.net/feed/index.atom" type="application/atom+xml" />
+    <link rel="license" type="text/html" href="http://creativecommons.org/licenses/by-nd/3.0/" />
+    <logo>http://creativecommons.org/images/public/somerights20.gif</logo>
+
+<entry>
+    <title>I Replaced Movable Type with HTML::Mason</title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-strategy/blogging/replaced-movable-type-mason.html" />
+    <id>tag:www.webquills.net,2009-07-08:replaced-movable-type-mason</id>
+    <published>2009-07-08T00:00:00Z</published>
+    <updated>2009-06-19T16:50:00Z</updated>
+    <summary>Although Movable Type is a fine blogging tool, I decided to build my own. Here&#x27;s why.  </summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="blogging" label="Blogging" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-strategy/blogging/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="ireplacedmovabletypewithhtml::mason">I Replaced Movable Type with HTML::Mason</h1>
+<p>A few weeks ago I wrote about some of the things I <a href="http://www.webquills.net/web-development/perl/10-things-i-lovehate-about-mov.html">love and hate about Movable Type</a> as a content management system. I still think <a href="http://www.movabletype.org/">Movable Type</a> is a great blogging tool, but as I tried to adapt it to my own need for a more general content management system, I kept running into road blocks. For web sites <em>not</em> laid out in the traditional blog format, Movable Type just didn't seem the best fit.</p>
+<p>Being a Perl developer myself, I naturally started thinking about what I would do differently. I realized that many of the things I loved about Movable Type had to do with its potential rather than the way I wanted to use it in practice. The subset of functionality I used was pretty small. In real life, MT was too much code for me, and solved too many problems I didn't have. With the <a href="http://en.wikipedia.org/wiki/Larry_Wall#Virtues_of_a_programmer">hubris of a Perl programmer</a>, I decided I could re-implement just the parts I needed, and thereby achieve better customization for Webquills using less code. </p>
+<p>While I'm still using MT for some other projects, Webquills.net is now running a custom code base that I have built using <a href="http://masonhq.com/">HTML::Mason</a>. Switching to Mason made my redesign of the site much easier to deal with. Incremental changes could be done quickly in a standard text editor rather than through the web with MT's interface. Also, I can now easily use source control for both the code that runs my website, and the content I publish. On the other hand, MT's <a href="http://microformats.org/">microformats</a> and fine metadata are missing (I will rebuild them eventually), and there is no web interface for editing or publishing content at all. It works for me, but not for anyone else!</p>
+<p>Over the next few weeks I'll write in the <a href="http://www.webquills.net/web-development/">tech section</a> about some of the details of that implementation. I'll also write about the reasoning behind some of my decisions in the <a href="http://www.webquills.net/web-strategy/">strategy section</a>. I will also be bringing up a lot shortcomings of the current implementation (and hopefully how I fix them). Of course, some the back end is just way too ugly to talk about, but I'll be trying to clean that up too.</p>
+<p>If you're interested in seeing how a new Perl-powered web site gets built from the beginning, then follow along via the <a href="http://feeds.feedburner.com/Webquills">Webquills RSS Feed</a>, or get <a href="http://www.feedburner.com/fb/a/emailverifySubmit?feedId=929839&amp;loc=en_US">updates via email</a>.</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>10 Things I Love/Hate About Movable Type </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/10-things-i-lovehate-about-mov.html" />
+    <id>tag:www.webquills.net,2009-05-03:10-things-i-lovehate-about-mov</id>
+    <published>2009-05-03T18:30:45Z</published>
+    <updated>2009-05-03T18:33:14Z</updated>
+    <summary>In which our hero counts off the list of inspirations and irritations encountered while blogging with Movable Type.  </summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="thingsilovehateaboutmovabletype">10 Things I Love/Hate About Movable Type</h1>
+<p>I have a love/hate relationship with my blogging tool. Here are ten aspects of Movable Type about which I am emotionally conflicted.</p>
+<ol>
+	<li>
+		<p><strong>Love:</strong> Movable Type is implemented in Perl. Yay, Perl! <br /><strong>Hate:</strong> Movable Type is implemented in "old school" Perl, not <a href="http://www.modernperlbooks.com/mt/2009/01/why-modern-perl.html">Modern Perl</a>. (But they are working on that, thanks MT team!)</p>
+	</li>
+	<li>
+		<p><strong>Love:</strong> Movable Type's publishing engine supports many publishing modes, including scheduled posts, and publishes static HTML files by default for efficient hosting. <br /><strong>Hate:</strong> The only option for dynamic publishing is - PHP? Seriously? Sorry MT, I fully understand the business reasons behind this, but as a Perl developer, it still offends me.</p>
+	</li>
+	<li>
+		<p><strong>Love:</strong> Movable Type is themeable. <br /><strong>Hate:</strong> The default theme is ugly. Replacement themes are not much better, so I'm still using the default.</p>
+	</li>
+	<li>
+		<p><strong>Love:</strong> Movable Type fully supports post metadata, without overwhelming you with interface inputs (not a unique feature of MT, but a nice one). <br /><strong>Hate:</strong> MT has three distinct metadata items called Categories, Tags, and Keywords. Each behaves differently, despite the fact that they all <em>mean</em> approximately the same thing to a user. (Tip: Categories generate pages. Tags do not, but are searchable. Keywords are basically useless.)</p>
+	</li>
+	<li>
+		<p><strong>Love:</strong> Input filters allow you to compose your posts using <a href="http://daringfireball.net/projects/markdown/">Markdown</a>, <a href="http://textile.thresholdstate.com/">Textile</a>, or plain HTML. <br /><strong>Hate:</strong> The built-in editor is just as clunky as all web-based editors (a problem not unique to MT). But worse, it feels "bolted on" rather than integrated into the blogging system. For example, there is no tool to easily create links to other posts. If you want to link to a previous post, you have to go look up the URL yourself (which is not easy due to the information architecture of the site, see below).</p>
+	</li>
+	<li>
+		<p><strong>Love:</strong> Plugins and The Registry - Everything revolves around this central "registry" data structure. Once you understand that structure and how to tweak it, you can do some pretty cool things without a lot of code. As a matter of fact, you don't even need to write Perl anymore, you can just drop a yaml file in a directory and it gets slurped into the data structure. <br /><strong>Hate:</strong> Managing plugins is a huge pain. In order for them to work you have to mix the plugin files with the original MT code in the same directory. You're never really sure if you're overwriting something, and if you do, you're SOL. Upgrading MT or one of the plugins also becomes painful, because it's hard to tell which files are core and which plugin. I took to managing mine with <a href="http://www.gnu.org/software/stow/">stow</a>, which made it livable, but still horrible. Plus, half the plugins available only work with the ancient MT3, not the more modern MT4.</p>
+	</li>
+	<li>
+		<p><strong>Love:</strong> The flexible template system. Once you get the hang of it, it's easy to make template tags produce all kinds of nifty things. And it is possible (though not trivial) to create new tags via plugins if you need additional functionality. <br /><strong>Hate:</strong> Templates are stored in the database by default, not the file system. This means you have to use the clunky MT template editor to edit them any time you change, or use the clunky MT template editor to edit every single template individually to force them to live in the filesystem. (Or write a script to fix it.) And you have to remember to do this every time you create a new blog too.</p>
+	</li>
+	<li>
+		<p><strong>Love:</strong> Every template is customizable, and you can make as many as you want. <br /><strong>Hate:</strong> As soon as you customize a template, you have to start worrying about your changes getting clobbered if you "refresh" to get new MT templates, which you really have to do if you want to take advantage of new MT features. (At least MT makes backups for you by default. But since they are stored in the database and not the filesystem, they are a pain to deal with.)</p>
+	</li>
+	<li>
+		<p><strong>Love:</strong> Movable Type supports multiple blogs/sites in the same installation, and as a result it is possible to craft queries in your templates that aggregate multiple blogs. <br /><strong>Hate:</strong> Each blog always gets its own separate set of templates based on an original core set. Sharing individual templates across blogs is hard. Sharing a whole set of templates requires bending over backwards and nibbling your heels. Making an identical set of changes to identical non-shared templates requires a custom Perl script, or the patience of Job.</p>
+	</li>
+	<li>
+		<p><strong>Love:</strong> Movable Type's default template set is built with web standards: XHTML, CSS, and even <a href="http://microformats.org/about/">microformats</a>, with <a href="http://en.wikipedia.org/wiki/Progressive_enhancement">progressive enhancement</a> in Javascript. <br /><strong>Hate:</strong> The information architecture of the default template set is terrible. Navigation is stuck into a sidebar down the page instead of up front. Pages that list posts always include the full text of a post rather than just a pointer, making exploration and discovery difficult. The whole site architecture seems to have been inherited unchanged from whatever protozoic blog first emerged from the muck back in the Paleo-web of the "Dot Com Bubble" era.</p>
+	</li>
+</ol>
+<p>Glad I got that off my chest. What's <em>your</em> boggle?</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>The Moose is on fire! </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/the-moose-is-on-fire.html" />
+    <id>tag:www.webquills.net,2009-04-26:the-moose-is-on-fire</id>
+    <published>2009-04-26T21:38:26Z</published>
+    <updated>2009-04-26T22:14:54Z</updated>
+    <summary>In which I am inspired by my fellow Perl hackers to write blog posts and code using the Moose object system for Perl.  </summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="themooseisonfire">The Moose is on fire!</h1>
+<p><a href="http://www.shadowcat.co.uk/blog/matt-s-trout/iron-man/">Matt S. Trout suggested</a> that we Perl people should be posting to our blogs weekly, rather than weakly. It's hard to argue against that, so here's my first in an attempted string of weekly posts. Cross your fingers!</p>
+<p>This week I was strongly inspired by all the yummy goodness happening around the <a href="http://search.cpan.org/perldoc?Moose">Moose</a> project. The <a href="http://www.catalystframework.org/">Catalyst framework</a> is now <a href="http://jjnapiorkowski.vox.com/library/post/catalyst-58001-has-shipped.html">officially based on Moose</a>, and <a href="http://jjnapiorkowski.vox.com/">John Napiorkowski</a> is <a href="http://jjnapiorkowski.vox.com/library/post/bluechild-end-to-end-development-of-a-perl-catalyst-website.html">writing a Catalyst app in public</a> to show it off. Meanwhile <a href="http://blog.jrock.us">Jonathan Rockway</a> did some showing off too (okay, before this week, but I just caught up on my feeds), using a URL un-shortening service as an excuse to put some <a href="http://blog.jrock.us/articles/Unshortening%20URLs%20with%20Modern%20Perl.pod">swank Moose extensions</a> out front. And chromatic also had some great stuff to say about <a href="http://www.modernperlbooks.com/mt/2009/04/attributes-of-elegant-perl-concision.html">concision in Perl</a>, a subject on which <a href="http://www.webquills.net/scroll/2008/07/perl-readability-expressivenes.html">I have spoken</a> as well.</p>
+<p>With both jrock and chromatic writing about how cool <a href="http://search.cpan.org/perldoc?MooseX::Declare">MooseX::Declare</a> is, it got me itching to try it out for myself. I've been way too busy for hobby coding in the last couple of months, and that's just bad for a Perl geek's mood. So this week I'm going to make some time for my passion and carve out a script I've been wanting, and I'm going to do it with MooseX::Declare for that warm and fuzzy feeling. So I'm going to take a spin through the new Moose documentation that <a href="http://blog.urth.org/2009/04/moose-docs-grant-wrap-up.html">Dave Rolsky just finished</a>, and then get cracking. If it all works out, you'll hear about it next week!</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>What do you get if you cross Perl CGI with Mod-PHP? </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/cross-perl-cgi-with-mod-phphtml.html" />
+    <id>tag:www.webquills.net,2008-12-16:cross-perl-cgi-with-mod-phphtml</id>
+    <published>2008-12-16T23:14:11Z</published>
+    <updated>2008-12-16T23:39:00Z</updated>
+    <summary>One possibility is mod_perlite, an Apache module that aims to make Perl as easy as PHP for users to deploy and for service providers to host.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="whatdoyougetifyoucrossperlcgiwithmod-php">What do you get if you cross Perl CGI with Mod-PHP?</h1>
+<p>One possibility is <a href="http://www.modperlite.org/">mod_perlite</a>, an Apache module that aims to make Perl as easy as PHP for users to deploy and for service providers to host.</p>
+<p>I love <code>mod_perl</code> and use it every day, but the fact is that most web hosts don't give their customers access to it, precisely because it is so powerful (and complex). But old-school CGI scripts with their fork-and-exec model are slow and resource intensive. This has left an opening into which PHP has stepped as the "upload your files and you're done" language for web development.</p>
+<p>The <abbr title="Just Another Perl Hacker">JAPH</abbr>s over at <a href="http://www.modperlite.org/">modperlite.org</a> are looking for some help. If you know your way around Perl and/or Apache internals, or are looking for an excuse to learn, they would love to hear from you. Go "git" <a href="http://github.com/SodaBrew/mod_perlite/tree/master">the code</a>, <a href="http://groups.google.com/group/modperlite">join the group</a>, and lend a hand!</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Mason&#39;s caching improves performance, relieves database pressure </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/masons-caching-improves-performance-relieves-database-pressure.html" />
+    <id>tag:www.webquills.net,2008-09-22:masons-caching-improves-performance-relieves-database-pressure</id>
+    <published>2008-09-22T20:41:58Z</published>
+    <updated>2009-05-15T07:35:46Z</updated>
+    <summary>HTML::Mason is a template system with power tools built in. Here&#x27;s a case study in the usefulness of Mason&#x27;s internal caching tools.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="masonscachingimprovesperformancerelievesdatabasepressure">Mason's caching improves performance, relieves database pressure</h1>
+<p><a href="http://www.masonhq.com">HTML::Mason</a> is a template system with power tools built in. Here's a case study in the usefulness of Mason's internal caching tools.</p>
+<h2 id="masonreadsfromdatabase">Mason reads from database</h2>
+<p>As part of a web site registration application, the user is to be presented with a list of email newsletters the site makes available. During registration, the user may select one or more of the newsletters and be automatically subscribed. So I coded up a Mason component to display this list.</p>
+<pre><code>&lt;%once&gt;
+use ListDB;
+&lt;/%once&gt;
+&lt;%init&gt;
+my @newsletters = ListDB::get_mailing_lists();
+&lt;/%init&gt;
+% for my $newsletter (@newsletters) {
+    &lt;input id="subscribe" type="checkbox" name="subscribe" value="&lt;% $newsletter %&gt;"&gt;
+    &lt;label for="subscribe"&gt;&lt;% $newsletter %&gt;&lt;/label&gt;&lt;br&gt;
+%}
+</code></pre>
+<p>Of course this example is simplified, the real code has more HTML and a bit more display logic. It's not pretty, but it gets the job done. In the <code>once</code> section I import the library that interfaces with our mailing list database (which is managed by a separate application). Then we simply get a list of available newsletters and display each with an input checkbox. </p>
+<h2 id="whendatabaseisbusyapachegetstiedup">When database is busy, Apache gets tied up!</h2>
+<p>As the website and the newsletters became more popular, we began to see problems. Specifically, when the mailing list software was performing some database intensive task, as it frequently did, the simple query underlying the call to <code>ListDB::get_mailing_lists()</code> would take a <em>very</em> long time to return. As a result, the user had to wait a minute or more for the page to load, and an Apache process was occupied waiting for the database to return. If we ever had a time when the web site and the database were both busy at the same time, <em>all</em> our Apache processes could end up waiting for the database query, leaving none to serve pages. That's bad news for a web site!</p>
+<p>The problem here, obviously, is that the code queries the database <em>every time</em> a user requests the registration form. This is not a problem that is unique to Mason, all dynamic web applications eventually run into it. Nor is the solution unique to Mason. But Mason makes the solution trivial to implement.</p>
+<h2 id="masoncachesmoothesdatabasebumps">Mason cache smoothes database bumps</h2>
+<p>The solution, of course, is to cache the response from the database, so that the next web request does not need to hit the database in order to render the list. The list of newsletters doesn't change very often, so there is no harm in caching it. In fact, since the HTML rendering of the list won't change either, why not cache the HTML and save the rendering next time too?</p>
+<p>If only Mason had a built-in cache system so I wouldn't have to go digging around for extra modules on CPAN and write another 20 lines of code. Oh wait, <em>it does</em>!</p>
+<pre><code>&lt;%init&gt;
+return if $m-&gt;cache_self(expire_in =&gt; 3600); # THE SOLUTION! (ALMOST)
+require ListDB;
+my @newsletters = ListDB::get_mailing_lists();
+&lt;/%init&gt;
+% for my $newsletter (@newsletters) {
+    &lt;input id="subscribe" type="checkbox" name="subscribe" value="&lt;% $newsletter %&gt;"&gt;
+    &lt;label for="subscribe"&gt;&lt;% $newsletter %&gt;&lt;/label&gt;&lt;br&gt;
+%}
+</code></pre>
+<p>See, I told you Mason makes it easy! You can arrange for any component to cache its output with this simple incantation. If the component has previously been cached, <code>$m-&gt;cache_self</code> will return a true value, and the component will not execute again. Instead, the output will be fetched from the cache, without any further action on your part. Pretty neat, huh? But that's not all it does. If the component has <em>not</em> been previously cached, this routine will set a "hook" that will transparently cache the output of the current component execution once it has finished. Now that's just cool! I'll bet you can guess what the <code>expire_in</code> argument does. Yup, I'm telling it to cache the output for 3600 seconds (one hour), if the current cache happens to be empty.</p>
+<p>Notice the other change I made. Instead of <code>use</code>ing our ListDB library in the <code>once</code> section, I have changed to a require statement. Why? Because in the general case, the library will not be needed for as much as an hour, because the content will be served from the cache. To save memory, we don't import the library until after the call the <code>$m-&gt;cache_self</code>, when we know we'll need it.</p>
+<h2 id="afterthecacheexpiresledeluge">After the cache expires, <em>le deluge</em></h2>
+<p>Ah, but there's a flaw in your brilliant plan, I hear you say. What happens if the database happens to be slow <em>just</em> when the cache expires? You're right back where you started, with an empty cache and a whole bunch of Apache process waiting for data to fill it with.</p>
+<p>Doggone it, why do you have to be so observant? I guess I'll have to break another tool out of Mason's bag of tricks. Watch <em>this</em>!</p>
+<pre><code>&lt;%init&gt;
+return if $m-&gt;cache_self(expire_in =&gt; 3600, busy_lock =&gt; 60); # THE SOLUTION!
+require ListDB;
+my @newsletters = ListDB::get_mailing_lists();
+&lt;/%init&gt;
+% for my $newsletter (@newsletters) {
+    &lt;input id="subscribe" type="checkbox" name="subscribe" value="&lt;% $newsletter %&gt;"&gt;
+    &lt;label for="subscribe"&gt;&lt;% $newsletter %&gt;&lt;/label&gt;&lt;br&gt;
+%}
+</code></pre>
+<p>See what I did there? No? Look again at that first line of the <code>init</code> section. The new <code>busy_lock</code> argument is the key. Basically, that's telling the Mason cache, "Hey, if this object has expired, extend the life of the old cached value by 60 seconds so other processes will still get a cached value. Meanwhile, I'm gonna calculate a new value and cache that."</p>
+<p>Now, when the cache "expires", only <em>one</em> Apache process will notice that fact. That one process will proceed to hit the database for the new value. Meanwhile, other processes will continue to find the old value in the cache for another 60 seconds. If the database does happen to be slow, only one user (per minute) will have a problem, and only one apache process will be hung waiting for data.</p>
+<h2 id="html::masonreferences">HTML::Mason references</h2>
+<ul>
+	<li>The <a href="http://www.masonhq.com">Mason home page</a></li>
+	<li>The <a href="http://www.masonhq.com/docs/manual/Devel.html#data_caching">Data Caching</a> section of the Mason developer guide</li>
+	<li>Get "The Mason Book", <a href="http://www.amazon.com/gp/product/0596002254?ie=UTF8&amp;tag=webquills-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0596002254">Embedding Perl in HTML With Mason</a><img alt="" border="0" height="1" src="http://www.assoc-amazon.com/e/ir?t=webquills-20&amp;l=as2&amp;o=1&amp;a=0596002254" style="border:none !important; margin:0px !important;" width="1" /> (also <a href="http://www.masonbook.com/">available online</a> )</li>
+	<li>Get <a href="http://search.cpan.org/dist/HTML-Mason/">Mason from CPAN</a></li>
+</ul>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Perl: Readability, Expressiveness, and Concision </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/perl-readability-expressivenes.html" />
+    <id>tag:www.webquills.net,2008-07-07:perl-readability-expressivenes</id>
+    <published>2008-07-07T07:05:06Z</published>
+    <updated>2008-07-07T07:48:34Z</updated>
+    <summary>Writing readable code means expressing yourself as clearly and correctly as you can, not targeting the lowest common denominator of reader.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="perl:readabilityexpressivenessandconcision">Perl: Readability, Expressiveness, and Concision</h1>
+<blockquote class="thesis">Writing readable code means expressing yourself as clearly and correctly as you can, not targeting the lowest common denominator of reader.</blockquote>
+<p>There are <em>many</em> people out there who are <a href="http://use.perl.org/~Phred/journal/36799">preaching the gospel of readable code</a>. I myself am one of them. I am a strong proponent of expressive variable and subroutine names, for example. Unless you are a fire-and-forget contract programmer, you are going to be reading your code a lot more often than you write it. But honestly, if code readability is your primary concern, use Python, not Perl.</p>
+<p>Reading good Python code is like reading a novel by Dan Brown or Michael Crichton. The language is clean and simple, allowing you to move forward easily, and quickly grasp the point of the story. The vocabulary is easily attainable and won't stretch your brain too far. I <em>like</em> reading Python code. It's an easy read — a beach read.</p>
+<p>Reading good Perl code is like reading Shakespeare. Every line is deeply expressive, both in its content and its rhythm. You probably need a dictionary to look up some words that, while not perhaps in everyday usage, express <em>exactly</em> what the author intended. It's still English, but you have to work a little harder at reading it, because it's beautiful, powerful English. </p>
+<p>When I write code, I <em>am</em> concerned about readability. But I am also concerned about <em>expressiveness</em> and <em>concision</em>. I have something I am trying to say. I don't always want two paragraphs of easy prose that approximate my point. Most of the time I want <em>le mot juste</em>, just the right word, a precise expression of exactly what I mean that requires no further elaboration. </p>
+<p>Now, I don't intend to imply that my Perl is of a class with Shakespeare's verse (nor Flaubert's prose). What I am saying is that some stories cannot be told in terms of Dick and Jane and Spot. Complex problems often require complex language to describe their solutions. I love writing such solutions in Perl, because Perl, like English, offers me a broad and rich vocabulary of idiom I can use to construct complex works easily. </p>
+<p>Those who speak pidgin-Perl can usually puzzle out what the code is doing, but they are going to get hung up at some points, and they are going to miss a lot of detail. That is not a flaw in the language, nor an error on the part of the writer. It is simply the nature of the form. But those who understand the depth of the language can truly appreciate the subtlety of a nice, tight hack. </p>
+<p>The key to writing code that is both readable and expressive is to build a bridge with your comments that help the unfamiliar reader find his way through the complex and obscure portions. If you find yourself using a rare or arcane idiom because its the <em>right</em> thing to do, don't dumb it down into fifty lines of loops for novice programmers. Instead, write a full paragraph of explanation above your one-line hack. Include references to man pages, books, and web sites. Scholarly works always have footnotes. The reader will not only gain a better understanding of your code, but perhaps learn a new technique that improves his own.</p>
+<p>Writing readable code does not mean writing for the lowest common denominator of reader. It means expressing your point as clearly and correctly as you can. Try to make your code readable, but don't sacrifice concision for readability. You should expect more from your reader, rather than expecting less from your code.</p>
+<p>P.S. For another view on the subject, you can read about the <a href="http://humorix.org/articles/2000/09/unobfuscated/">Unobfuscated Perl Code Contest</a>.</p>
+<p>P.P.S. For more deep(?) thoughts about Perl programming from <a href="http://www.webquills.net/scroll/">Webquills.net</a>, <a href="http://feeds.feedburner.com/Webquills">read the feed</a> or <a href="http://www.feedburner.com/fb/a/emailverifySubmit?feedId=929839&amp;loc=en_US">get new posts via email</a>. </p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>ORM - PITA? </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/orm-pita.html" />
+    <id>tag:www.webquills.net,2008-06-14:orm-pita</id>
+    <published>2008-06-14T19:25:35Z</published>
+    <updated>2008-06-14T19:32:05Z</updated>
+    <summary>Recently I read a note called DBIx::Class Gotchas over at Perl Alchemy. I&#x27;ve been struggling myself for several months with a bundle of old Class::DBI code, and I can relate. Both packages fall into the category of Object-Relational Mapping (ORM), software that tries to map programming objects around entities stored in a relational database.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="orm-pita">ORM - PITA?</h1>
+<p>Recently I read a note called <a href="http://perlalchemy.blogspot.com/2008/06/dbixclass-gotchas.html">DBIx::Class Gotchas</a> over at <a href="http://perlalchemy.blogspot.com/">Perl Alchemy</a>. I've been struggling myself for several months with a bundle of old <a href="http://search.cpan.org/dist/Class-DBI/">Class::DBI</a> code, and I can relate. Both packages fall into the category of Object-Relational Mapping (ORM), software that tries to map programming objects around entities stored in a relational database.</p>
+<p>For a long time I was a huge proponent of ORM software, and I still am for certain types of projects. But the honeymoon is over for me, as I've started to hit some of those limitations they always warn you about. ORM buys you a big gain in productivity, because the software reduces database access patterns from a dozen lines of code to just one or two. If you need to get a small project up and running fast, ORM is a tool that can help a great deal.</p>
+<p>The trouble with ORM is that your objects don't always map directly to the queries you want to make. To simplify the thorny problem of SQL generation, often the underlying implementation is doing things in Perl code that would be more efficiently done in the database, or executing multiple SQL queries when a single join would have done the trick. When your project gets very large, very complex, or very dependent on database performance, the ORM layer suddenly seems to hinder as much as it helps. I now spend as much of my time coding <em>around</em> the ORM layer as using it.</p>
+<p>Still, without ORM I would spend a lot more time writing "select * from table" queries and the like, and I almost always have the need to optimize for development time rather than execution time. So I have this love/hate relationship.</p>
+<p>What's your experience with ORM software? Love it? Hate it? Tolerate it?</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Perl 5: Hash slices can replace loops </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/perl-5-hash-slices-can-replace.html" />
+    <id>tag:www.webquills.net,2008-05-26:perl-5-hash-slices-can-replace</id>
+    <published>2008-05-26T12:00:57Z</published>
+    <updated>2008-05-26T12:07:37Z</updated>
+    <summary>How many times have you written a for loop to do something simple with a hash and thought, there must be a better way to do this? Using hash slices instead of simple loops can save you lines of code and execution time.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="perl5:hashslicescanreplaceloops">Perl 5: Hash slices can replace loops</h1>
+<p>How many times have you written a <code>for</code> loop to do something simple with a hash and thought, there must be a better way to do this? Using hash slices instead of simple loops can save you lines of code and execution time.</p>
+<p>A <em>hash slice</em> is a syntax for accessing the values of multiple keys of a hash in a single statement. It is a succinct and efficient technique, but it is also one of those collections of punctuation that give Perl a reputation as a write-only language. Once you have learned it, however, you will feel much more clever! Here are a few examples of how I use hash slices to make my code shorter and faster. (Note that you can also slice arrays, but today we are just talking about hashes.)</p>
+<h2 id="basichashslicesyntax">Basic hash slice syntax</h2>
+<p>You perform a hash slice by using a list as a hash index, rather than a scalar value, and preceding with the <code>@</code> sigil rather than the <code>$</code> sigil you would use to get a scalar value.</p>
+<pre><code>my %number_for = (one =&gt; 1, two =&gt; 2, three =&gt; 3);
+# Regular access to scalar key
+print $number_for{one}; # 1
+# Hash slice accesses multiple keys. Note the '@'
+print @number_for{qw(one two three)}; # 123
+# This also works
+print @number_for{'one','two','three'}; # 123
+</code></pre>
+<p>A cautionary note: notice how the scalar index uses a bare word as the key. Perl gives you the quoting for free in this case. With a slice, Perl doesn't help, so you have to do the quoting yourself.</p>
+<h2 id="mergingtwohashes">Merging two hashes</h2>
+<p>Since hash slices can be lvalues, they can be used to merge one hash into another. A common example is when you get configuration information from more than one source, but you want to consolidate it to look up in just one place.</p>
+<pre><code>my %your_numbers = (two =&gt; 2, four =&gt; 4, six =&gt; 6);
+# I get all your numbers! 
+# (And your number will override mine if they differ)
+@number_for{keys %your_numbers} = values %your_numbers;
+print sort values %number_for; # 12346
+</code></pre>
+<h2 id="accessingkeysinaparticularorder">Accessing keys in a particular order</h2>
+<p>Here is a common thing you run into in web development. You have received input from a web form and validated it. (You <em>have</em> validated it, right?) The data lives in a hash, and you want to store it in a database. You have your SQL statement all prepared, but it requires that the values be bound in exact column order. Unfortunately, the <code>values</code> function cannot be relied upon to return the values in the order you want. (And besides, you don't want to store the value of the submit button!)</p>
+<pre><code># get valid data from your validation code
+my %validated = %number_for;
+# Columns of your table, in order needed by your SQL
+my @columns = qw(six one three);
+# Get the bind values with a slice
+my @bind = @validated{@columns}; # 6,1,3
+</code></pre>
+<h2 id="accessingvaluessortedbykeys">Accessing values sorted by keys</h2>
+<p>Say you want to sort a hash by its keys, and then use the values in that sorted order. Using the above data, perhaps we want to print numbers in alphabetical order.</p>
+<pre><code>print @number_for{sort keys %number_for}; # 41632
+</code></pre>
+<h2 id="slicingahashreference">Slicing a hash reference</h2>
+<p>Eventually you will find yourself with a reference to a hash, and you will discover that the above syntax does not work. You may try three or four different combinations of curlies and arrows that just generate errors. Don't give up! You <em>can</em> slice a hashref! First, let's review using a hashref to get at scalar values.</p>
+<pre><code>my $num_for = \%number_for;
+# Common syntax for dereferencing and getting a scalar index
+print $num_for-&gt;{one}; # 1
+# Alternate syntax, the lazy way:
+print $$num_for{two}; # 2
+# Alternate syntax, the explicit way
+print ${$num_for}{six}; # 6
+</code></pre>
+<p>The key to slicing a reference to a hash is to use the alternate syntax shown above, replacing the initial <code>$</code> sigil with <code>@</code>.</p>
+<pre><code># The lazy way:
+print @$num_for{@columns}; # 613
+# The explicit way:
+print @{$num_for}{@columns}; # 613
+</code></pre>
+<p>Note the distinct absence of the "arrow" syntax. The arrow implies a scalar, and we want a list.</p>
+<h2 id="powerfulsyntax">Powerful syntax</h2>
+<p>The hash slice is an advanced syntax demonstrating Perl's concision and expressiveness. Now you should be able to recognize it when you see it, and hopefully apply it to your own projects to save time and space. (But remember, use your Perl superpowers only for Good, never for Evil!)</p>
+<p>For a semi-regular diet of great Perl programming tips, <a href="http://feeds.feedburner.com/Webquills">subscribe to the Webquills.net feed</a> or <a href="http://www.feedburner.com/fb/a/emailverifySubmit?feedId=929839&amp;loc=en_US">get Webquills.net via email</a>. </p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Best Error Message Ever </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/best-error-message-ever.html" />
+    <id>tag:www.webquills.net,2008-03-15:best-error-message-ever</id>
+    <published>2008-03-15T18:12:33Z</published>
+    <updated>2008-03-15T18:16:24Z</updated>
+    <summary>Oh, the irony is so heavy, it&#x27;s breaking me!</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="besterrormessageever">Best Error Message Ever</h1>
+<p>Oh, the irony is so heavy, it's breaking me!</p>
+<p><img alt="undef is not defined" class="mt-image-none" height="224" src="http://www.webquills.net/img/best-error-ever.png" width="523" /></p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Perl Tool Tip: module_info </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/perl-answering-questions-about.html" />
+    <id>tag:www.webquills.net,2008-02-18:perl-answering-questions-about</id>
+    <published>2008-02-18T21:45:00Z</published>
+    <updated>2008-02-18T21:53:59Z</updated>
+    <summary>When developing and deploying Perl code that relies heavily on CPAN modules (and if yours doesn&#x27;t, it&#x27;s either really simple, or you are not using Perl to its full potential), I find myself asking the same set of questions over and over again.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="perltooltip:module_info">Perl Tool Tip: module_info</h1>
+<p>When developing and deploying Perl code that relies heavily on CPAN modules (and if yours doesn't, it's either really simple, or you are not using Perl to its full potential), I find myself asking the same set of questions over and over again.</p>
+<ul>
+	<li>Do I have ${ModuleX} installed on this machine?</li>
+	<li>What version of ${ModuleX} is installed?</li>
+	<li>There might be more than one copy of ${ModuleX}. Which one is my code using?</li>
+	<li>${ModuleX} is not behaving. I want to have a look at its source.</li>
+</ul>
+<p>A handy (and free) tool to help answer these questions is available from CPAN in the <a href="http://search.cpan.org/dist/Module-Info/">Module::Info</a> distribution. In addition to the library, this distribution also includes the <code>module_info</code> command line script. Run it to find out the version and location of the module in question. For example:</p>
+<pre><code>vince@Vince-Laptop:~$ module_info Module::Info
+
+Name:        Module::Info
+Version:     0.310
+Directory:   /Library/Perl/5.8.6
+File:        /Library/Perl/5.8.6/Module/Info.pm
+Core module: no
+</code></pre>
+<p>You can quickly find out what version of the module is installed, where it lives, and even whether it is a part of the Perl core distribution. Sadly, <code>Module::Info</code> itself is <em>not</em> in the Perl core, so you'll have to install it and its dependencies from CPAN.</p>
+<p>If you can't install the CPAN module for some reason, I hacked together a little script I call <code>qmod</code> that I could carry around on a thumb drive with my dot-files and such. Being just a quick hack, it's not as functional as <code>module_info</code>, but it gets the job done. Here it is in its entirety (less documentation).</p>
+<pre><code>#!/usr/bin/perl
+use strict;
+my $max = 0;
+my @list;
+for (@ARGV) {
+    $max = length($_) &gt; $max ? length($_) : $max;
+    eval  "require $_;" ;
+    if ( $@ ) {
+        push @list, [$_, 'Not Found', ''];
+    } else {
+        my ($version,$file,$which);
+        ($file = "$_.pm") =~ s{::}{/}g; 
+        my $varname = $_ . "::VERSION";
+        eval "\$version = \$$varname;";
+        push @list, [$_, $version, $INC{$file}];
+    }#END if
+}#END for
+printf "%-${max}s  %6s  %s \n", @{$_} for @list;
+</code></pre>
+<p>If you just need to know the location of a module file, here's a nice tip from brian d foy's <a href="http://www.amazon.com/gp/product/0596527241?ie=UTF8&amp;tag=controlescape-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0596527241">Mastering Perl</a><img alt="" border="0" height="1" src="http://www.assoc-amazon.com/e/ir?t=controlescape-20&amp;l=as2&amp;o=1&amp;a=0596527241" style="border:none !important; margin:0px !important;" width="1" />: <code>perldoc -l Module::Info</code>.</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Inside-out Templates in Perl </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/insideout-templates-in-perl.html" />
+    <id>tag:www.webquills.net,2008-02-09:insideout-templates-in-perl</id>
+    <published>2008-02-09T07:57:44Z</published>
+    <updated>2009-05-15T07:41:05Z</updated>
+    <summary>Pop quiz, hotshot. Your team has undertaken a project to completely redesign your web site. Fancy-pants designers are hard at work generating not one but three new designs. The designs will be put through a battery of usability tests, after which the best parts will be combined into the final design. They need you to create server-side logic that will populate content areas, navigation, and various design elements according to how the user manipulates the site. But the HTML is nowhere near finished, and the designers will be tweaking it right up to the day of the test. What do you do?</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="inside-outtemplatesinperl">Inside-out Templates in Perl</h1>
+<p>Pop quiz, hotshot. Your team has undertaken a project to completely redesign your web site. Fancy-pants designers are hard at work generating not one but <em>three</em> new designs. The designs will be put through a battery of usability tests, after which the best parts will be combined into the final design. They need <em>you</em> to create server-side logic that will populate content areas, navigation, and various design elements according to how the user manipulates the site. But the HTML is nowhere near finished, and the designers will be tweaking it right up to the day of the test. <em>What do you do?</em></p>
+<p>Your normal workflow is shot. Typically you receive finished HTML from the designers, break it down into reusable components, add template tags to represent program objects and logic, and prepare the whole thing to be run through a template processor to generate output. That's out. Any attempt to mess with their HTML will be counter-productive. The priority here is to perfect the design for usability testing, and that means rapid iteration in visual design tools. Template tags will get in the way.</p>
+<p>The time crunch is serious. They need a <em>functional</em> prototype to test with, but you can't embed the functionality into the template. They're holding your templates hostage.</p>
+<p>My solution: Shoot the hostage.</p>
+<h2 id="bindinglogictodocumentstructure">Binding logic to document structure</h2>
+<p>The key to solving a seemingly impossible problem is not to come up with a seemingly impossible solution. It is to reframe the problem into something that's easier to solve.</p>
+<p>In this situation, the problems <em>seems</em> to be that I have to embed my template logic into these HTML files at the last minute, with no hope of having time for testing. Since this is nearly impossible, let's break down the problem. What is the template logic going to actually do? </p>
+<ol>
+	<li>Extract content from a database, keyed by the requested URL, and wrap it in one of the provided designs.</li>
+	<li>Rewrite the navigation section according to the URL of the current page.</li>
+	<li>Perform several variable substitutions based on the site being tested.</li>
+</ol>
+<p>None of these things are really dependent on the particular HTML design they are going into. They are just inserting or changing some content at a particular position in the document structure. I can write this logic without having the HTML. The trouble is, the logic does not do anything until it is bound to the document structure in some way. Template systems perform this binding by <em>embedding</em> the logic into the structure itself. Since I can't put template markers into the HTML, what I need is a way to bind the logic to the document structure <em>from the outside</em>.</p>
+<p>Being a Perl hacker, my first thought was, can I rewrite the content using a regular expression string substitution? Having a look at the HTML in progress, I quickly decided this was an unreliable method. If they changed the order of tags or attributes, which they were sure to do, everything would break, and I would be up all night debugging regular expressions. Not my idea of a party.</p>
+<p>If only this were a client-side application, I found myself thinking. Then I could use <a href="http://jquery.com/">jQuery</a> or another javascript toolkit to rewrite the <abbr title="Document Object Model">DOM</abbr> at the client. In old-school javascript, this wouldn't be much better, but modern techniques like <a href="http://domscripting.com/blog/display/41">Hijax</a> allow you to separate the code from the structure to manipulate the DOM from the outside.</p>
+<p>Hang on a minute. At the server, I have access to everything the client has and then some. Can't I build a DOM at the server and manipulate it in Perl?</p>
+<h2 id="aninside-outtemplateusinghtml::treebuilder">An inside-out template using HTML::TreeBuilder</h2>
+<p>Off to <a href="http://search.cpan.org">CPAN Search</a>, and in minutes I was writing my first experimental script with <a href="http://search.cpan.org/dist/HTML-Tree/">HTML::TreeBuilder</a>. I started with something like this:</p>
+<pre><code>#!/usr/bin/perl
+use HTML::TreeBuilder;
+
+my $tree = HTML::TreeBuilder-&gt;new();
+$tree-&gt;parse_file('wrapper.html');
+
+my @links = $tree-&gt;look_down( _tag =&gt; 'a');
+
+printf 'Found %s links', scalar(@links);
+print "\n";
+for (@links) {
+        print $_-&gt;attr('href'),"\n";
+}
+</code></pre>
+<p>Sure enough, I was able to print out all the linked URLs just like that! </p>
+<p>My next step was not code, but social engineering. I talked to our designers and established that all the HTML designs would use the same HTML id attributes for the same document elements, and that these id attributes would not change. I needed this structural stability for my code to work. Fortunately, our clever designers were already on the ball and didn't have to change a thing.</p>
+<p>I quickly implemented some procedural code that would perform the replacements I was after. Most of the code was spent loading the strings and structures that would serve as replacement text, so it isn't really useful to display here. But here are a few tips that might help you out if you decide to use HTML::TreeBuilder in your application.</p>
+<h3 id="treebuldertip1:commentsarestrippedbydefault">TreeBulder Tip 1: Comments are stripped by default</h3>
+<p>The designers needed to see their "trace" comments in the output of the processed template. HTML::TreeBuilder throws comments away by default. To keep them:</p>
+<pre><code>my $tree = HTML::TreeBuilder-&gt;new();
+$tree-&gt;store_comments(1); # Before parsing!
+</code></pre>
+<p>This makes comments appear as separate nodes in the tree, with a tag of <code>~comment</code>. You can also preserve PHP code and other processing instructions using <code>$tree-&gt;store_pis(1)</code>, and preserve the DOCTYPE declaration with <code>$tree-&gt;store_declarations(1)</code>, although I didn't need to.</p>
+<h3 id="treebuildertip2:enableparsingxml-styleemptyelementtags">TreeBuilder Tip 2: Enable parsing XML-style empty element tags</h3>
+<p>My designers were using tools that produced (for the most part) valid XHTML. In XHTML, the empty tag syntax is used for tags like <code>link</code> and <code>img</code>.</p>
+<pre><code>&lt;link rel="stylesheet" href="http://www.webquills.net/global.css" /&gt;
+            &lt;!-- XHTML Empty tag syntax  ^^^ --&gt;
+</code></pre>
+<p>TreeBuilder's default parse mode (inherited from HTML::Parser) treats these trailing slashes as character data. This didn't cause any actual problems for me, but better safe than sorry. I explicitly enabled support for empty tags this way:</p>
+<pre><code>$tree-&gt;empty_element_tags(1); # Before parsing!
+</code></pre>
+<h3 id="treebuildertip3:beexplicitwithas_html">TreeBuilder Tip 3: Be explicit with <code>as_HTML()</code></h3>
+<p>To turn the in-memory model back into HTML text for output, you use the <code>as_HTML()</code> method. This method can be called with no arguments, in which case it implements some default behaviors which are almost certainly not what your designers want.</p>
+<p>The first argument describes what character entities should be HTML encoded in PCDATA (i.e. text nodes). By default, it encodes everything that <a href="http://search.cpan.org/perldoc?HTML%3A%3AEntities">HTML::Entities</a> knows how to encode. This is probably overkill. The docs say that you can be compatible with previous versions by passing '&lt;&gt;&amp;'.</p>
+<p>The second argument is the "indent string". By default this is undefined, which is nice for production since it eliminates unnecessary white space in the output. But when you are debugging the output, it's nice to have it "pretty printed". So I specified a four-space indent. With this setting, TreeBuilder neatly aligns open and close tags, making debugging much easier.</p>
+<p>The third and most important argument defines elements whose end-tags are "optional", and by optional it means <em>omitted</em>. If you want your HTML to validate, and more importantly not be <em>broken</em>, you need to pass an empty hash reference for this argument. Missing <code>&lt;/p&gt;</code> tags can seriously screw up a CSS based layout in certain circumstances, as I discovered the hard way.</p>
+<p>So the <em>correct</em> way to call <code>as_HTML()</code> is like this:</p>
+<pre><code>$w_tree-&gt;as_HTML('&lt;&gt;&amp;','    ',{});
+</code></pre>
+<h3 id="treebuildertip4:dontuseas_xmlunlessyoureallymeanit">TreeBuilder Tip 4: Don't use <code>as_XML()</code> unless you <em>really</em> mean it</h3>
+<p>If you are producing XHTML code, you might be tempted to call <code>as_XML()</code> instead of <code>as_HTML()</code> to serialize your tree. And you would be correct. But remember that XML is <em>very strict</em> about how things must be structured, and TreeBuilder complies with this strictness.</p>
+<p>One of the sneaky things that will bite you is that in XHTML, script tags have a content model of PCDATA. This means that a <em>correct</em> XML generator must encode entities contained by the tag. And if this happens (as it will if you call <code>as_XML()</code>), your Javascript just got completely mangled and will no longer run. (Unless, of course, you used the magic incantation to wrap your script contents in CDATA sections.) You can read more about the issues on <a href="http://developer.mozilla.org/en/docs/Properly_Using_CSS_and_JavaScript_in_XHTML_Documents">Moz Dev</a>. However, I found the safest route was to output HTML 4.01 instead. Using an HTML 4 DOCTYPE still triggers standards mode in web browsers, but doesn't have all the <a href="http://hixie.ch/advocacy/xhtml">pitfalls of serving XHTML</a>.</p>
+<h3 id="treebuildertip5:html::element::library">TreeBuilder Tip 5: HTML::Element::Library</h3>
+<p>I discovered this too late to use it myself, but <a href="http://search.cpan.org/perldoc?HTML::Element::Library">HTML::Element::Library</a> extends HTML::Element with some finger-saving shortcuts. Several times I ended up writing a code stanza that looked like this:</p>
+<pre><code>my $e = $tree-&gt;look_down(id =&gt; 'replaceMe');
+$e-&gt;delete_content();
+$e-&gt;push_content($replacement);
+</code></pre>
+<p>With HTML::Element::Library, you can do this instead:</p>
+<pre><code> $tree-&gt;look_down(id =&gt; 'replaceMe')-&gt;replace_content($replacement);
+</code></pre>
+<h2 id="treebuilderprosandcons">TreeBuilder Pros and Cons</h2>
+<p>I think TreeBuilder was the the right tool for the job I had to do. It allowed me to manipulate HTML documents at the server <em>without</em> embedding code-specific markers in the document itself. This allowed my team to generate both HTML and server-side Perl code in parallel, and we met our targets with room to spare.</p>
+<p>That said, I don't think I would want to use TreeBuilder as my regular template tool. Binding logic to the HTML structure using procedural Perl takes a lot more code than just embedding it into the template. More code means more typing, more testing, and more bugs. <a href="http://search.cpan.org/perldoc?HTML::Seamstress">HTML::Seamstress</a> tries to help, and certainly should be considered if you are using more than one or two templates with this method, but Seamstress doesn't eliminate code so much as generate it for you. Better, but still not what I want.</p>
+<p>What I <em>really</em> want is a concise, declarative syntax for binding logic to the document structure. No, not XSLT. I said "concise". I can definitely write Perl code faster than XSLT, and the resulting code is shorter and easier to read.</p>
+<p>What would be nice is something very like a CSS stylesheet, but with code blocks instead of style attribute assignments inside the curly braces. Or maybe just a Perl port of jQuery. That would be <em>way</em> cool. Anybody want to build that for me?</p>
+<h2 id="popculturenote">Pop culture note</h2>
+<p>For those too young to remember, "Pop quiz, hotshot", "What do you do?", and "Shoot the hostage" are references to the 1994 action movie <a href="http://www.amazon.com/gp/product/B0006GANOQ?ie=UTF8%26tag%3Dcontrolescape-20%26linkCode%3Das2%26camp%3D1789%26creative%3D9325%26creativeASIN%3DB0006GANOQ">Speed</a><img alt="" border="0" height="1" src="http://www.assoc-amazon.com/e/ir?t=controlescape-20%26l%3Das2%26o%3D1%26a%3DB0006GANOQ" style="border:none !important; margin:0px !important;" width="1" />, a classic of my generation.</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Choose the right template system for your team </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/choose-the-right-template-syst.html" />
+    <id>tag:www.webquills.net,2008-01-29:choose-the-right-template-syst</id>
+    <published>2008-01-29T22:53:18Z</published>
+    <updated>2009-05-15T07:42:07Z</updated>
+    <summary>What is the best template system? Ask five people and you&#x27;ll probably get six different answers. Perl has more than its fair share of template tools, from the Swiss Army Chainsaw of Template Toolkit, through HTML::Mason and Text::Template down to the ever-tempting &#x22;variables interpolated in a here-doc&#x22; method.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="choosetherighttemplatesystemforyourteam">Choose the right template system for your team</h1>
+<p>What is the best template system? Ask five people and you'll probably get six different answers. Perl has more than its fair share of template tools, from the Swiss Army Chainsaw of <a href="http://search.cpan.org/dist/Template-Toolkit/">Template Toolkit</a>, through <a href="http://search.cpan.org/dist/HTML-Mason/">HTML::Mason</a> and <a href="http://search.cpan.org/dist/Text-Template/">Text::Template</a> down to the ever-tempting "variables interpolated in a here-doc" method.</p>
+<p>As always with this type of question, there is no "correct" answer. The best template system is the one that works best for you, in your circumstances. If you are the only programmer in a room full of professional designers, your optimal template choice is likely to be different than if you are just trying to stick a loop into a text file for your own cron job. </p>
+<p>In my experience, the key factors in choosing a template system are usually the composition of your development team, and the development workflow. Who has to work with the templates, and what are their skill sets? Is the code being designed around the interface, or is the interface being pasted on top of the code?</p>
+<p>Read on for a comparison of the major template systems in Perl, and my recommendations of which systems fit which circumstances.</p>
+<h2 id="soloperlhacker:text::template">Solo Perl Hacker: Text::Template</h2>
+<p>If you are a Perl programmer and you are producing your own templates, whether they be an HTML front-end or a plain text email, you can hardly go wrong by starting with <a href="http://search.cpan.org/dist/Text-Template/">Text::Template</a>. This is the shortest path from Perl code to output, short of variable interpolation in a double-quoted string. The syntax is just plain old Perl, and everything you know about Perl translates directly to effective templates.</p>
+<p>The down-side, of course, is that you do not enforce a clear separation of concerns. As a programmer intimately familiar with the internals of your application, you will be tempted to embed all sorts of application logic into the templates themselves. This makes your application harder to test and harder to maintain.</p>
+<p>There is nothing in Text::Template that forces you to mix business logic into your templates or to write unmaintainable code, but it doesn't go out of its way to encourage modularity or cleanliness either. For larger projects, meaning either lots of templates or several programmers, you may consider a more complex solution that enforces some rules. (Template Toolkit might be a good step up, read below.) But for quick and dirty (or quick and clean) templates, Text::Template is awesome. Also, if your application is <em>not</em> a web application, this is a good place to start.</p>
+<h2 id="perlteamwebapp:html::mason">Perl Team, Web App: HTML::Mason</h2>
+<p><a href="http://search.cpan.org/dist/HTML-Mason/">HTML::Mason</a> is an excellent solution for a small team of Perl programmers writing their own HTML. Although it is not limited to HTML (it works fine with any kind of text), Mason excels at web development. It ships with a light-weight web framework of its own, although it can also be plugged into web frameworks like <a href="http://catalyst.perl.org">Catalyst</a>. </p>
+<p>Like Text::Template, Mason works by embedding Perl into your templates, so Perl programmers can pick it up fairly quickly. Much of Mason's added syntax is geared around triggering code at different points in the request cycle, and creating time-saving features like automatic wrapping of content with layout components that are "inherited" based on the directory hierarchy. </p>
+<p>Mason allows you to think about HTML design like a <em>programmer</em>, decomposing a web site into reusable components that are effectively Perl objects, each with its own methods and variable scope. This makes it highly effective for code-centric applications, where the HTML is built after the primary program logic.</p>
+<p>Mason is not necessarily the best system for HTML designers who are not Perl hackers. Because it encourages decomposition into components, you rarely have a template that represents a complete HTML document. Mason's syntax uses pseudo-tags to demarcate embedded logic, which tends to upset HTML-centric design tools.</p>
+<p>I find Mason to be especially useful for applications where I need to create a web interface to some existing data store, such as a SQL database created by another application. Combined with a clean database access layer like <a href="http://search.cpan.org/dist/DBIx-Class/">DBIx::Class</a>, you can get from legacy database to structured web front-end extremely quickly.</p>
+<p>I'm a big Mason fan, and I encourage you to visit <a href="http://www.masonhq.com">Mason HQ</a> to give it a try.</p>
+<h2 id="dedicatedhtmlcoder:html::templateortemplatetoolkit">Dedicated HTML Coder: HTML::Template or Template Toolkit</h2>
+<p>If your team has designers who are good with mark-up but not experienced programmers, then you probably want a template system that will insulate them from program logic while giving them the flexibility to construct simple loops and conditionals. </p>
+<p><a href="http://search.cpan.org/dist/HTML-Template/">HTML::Template</a> is a good choice for the mark-up coder who is less programmatically inclined. Its syntax is close to HTML, which flattens the learning curve, and it doesn't expose too many internal moving parts that would be hard to learn and easy to break. On the other hand, the syntax is <em>so</em> similar to HTML that HTML editing tools might see it as bad mark-up and complain about it. As with Mason, your templates will almost certainly not validate on their own. (As a programmer, I find the functional limitations frustrating.)</p>
+<p>If your HTML expert is also comfortable writing Javascript code (or some other non-Perl language like Java, Python, or Ruby), you might shift toward <a href="http://search.cpan.org/dist/Template-Toolkit/">Template Toolkit</a>. TT allows you to use program objects in the template using a Javascript-like dot syntax, and gives a bit more flexibility in logical constructs. TT also has the advantage that it can scale to large and complex template sets, and its numerous plugins give you a lot of usage options. Template instructions will not be confused with HTML mark-up, either by humans or editing tools, so if you're careful you can get your unprocessed templates to validate.</p>
+<h2 id="fancy-pantsdesignersvs.engineers:templatetoolkitpetaltemplate::tal">Fancy-pants Designers vs. Engineers: Template Toolkit, Petal, Template::TAL</h2>
+<p>If your web application is heavily design-oriented, what your designers want from you is probably what they might describe as "server-side Javascript". That is, you are probably working from a design first, and building program logic to hang functionality onto the design.</p>
+<p>Template Toolkit can fit pretty well into this kind of process. It makes sense to designers familiar with Javascript or some other programming language, and the more programmatically inclined designers enjoy exercising program logic in their templates. But not all designers are programmatically inclined. I refer to these types (lovingly) as "fancy-pants" designers.</p>
+<p>Typically, fancy-pants designers will start with a "wireframe" sketch and move up to fully elaborated Photoshop mocks of their web designs. Only after working in this form for several iterations will they start to generate an HTML model of the design. Their first goal is to create an HTML model that exactly mimics their Photoshop images, including sample text and images in the content areas. This helps them to visually prove that their designs will display correctly in a web browser (vitally important for a design-intensive web application).</p>
+<p>Using Template Toolkit or any of the above template solutions adds a step to the design workflow where the HTML model must be dismantled, and bits of pretty HTML filler replaced with unattractive template tags and symbols. Most designers don't care for this, because it makes it more difficult to visualize the product as it was meant to be viewed. Design changes that come <em>after</em> this transformation can be painful, because the designers usually have to go back to their mocked HTML model to visualize the changes, and then they (or you) must repeat the dismantling and replacement process.</p>
+<p><a href="http://search.cpan.org/perldoc?Petal">Petal</a> and <a href="http://search.cpan.org/perldoc?Template::TAL">Template::TAL</a> are potential solutions to this problem. (Both are Perl ports of a Python tool, <a href="http://wiki.zope.org/ZPT/TAL">Zope Template Attribute Language</a>.) Their technique solves the problem by hiding template instructions in the HTML as extra attributes on proper HTML tags. Designers can feel free to fill the template with sample text and images that will make the template display cleanly in any web browser or HTML editing tool. Instead of taking this filler away, they (or you) <em>add</em> template instructions that dictate how the filler should be replaced by the output of program objects when the template is processed. Using namespaces, this can result in templates that are valid XHTML documents.</p>
+<h2 id="andthewinneris...">And the winner is...</h2>
+<p>What have we learned? When choosing a template system, you must consider the needs of the team as a whole, not just the software developers. Any of these solutions might be perfect for your team and your workflow.</p>
+<p>But since you insist: My personal favorite is <a href="http://search.cpan.org/dist/HTML-Mason/">HTML::Mason</a>. I've been using it to build web applications for years. The community is very supportive, I'm comfortable with it's quirks, and most importantly, I'm extremely productive with it. However, if you currently have no experience with any of these template systems, and you want to learn only <em>one</em> system, I recommend you pick up <a href="http://search.cpan.org/dist/Template-Toolkit/">Template Toolkit</a>. It has a vibrant community around it, which I consider a must for any tool I use. You can get started quickly. And you can reasonably use it in small, simple applications as well as large complex ones, so it leaves you plenty of room to grow.</p>
+<p>If I forgot to mention <em>your</em> favorite template system, I'm sorry. I can only write about what I know, and these are the template systems that I am familiar with. Feel free to plug your own favorite solution in the comments!</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Perl 5: The grass is plenty green </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/perl5-grass-is-plenty-green.html" />
+    <id>tag:www.webquills.net,2007-12-22:perl5-grass-is-plenty-green</id>
+    <published>2007-12-22T10:33:19Z</published>
+    <updated>2007-12-22T10:36:32Z</updated>
+    <summary>A few months ago I wrote a missive lamenting the coolness going on in other languages in terms of web frameworks and the dearth of magical leaps forward in Perl. Well, I take it all back. Serves me right for not recognizing hype for what it is.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="web%20design" label="Web Design" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="perl5:thegrassisplentygreen">Perl 5: The grass is plenty green</h1>
+<p>A few months ago I wrote a missive lamenting the coolness going on in other languages in terms of web frameworks and the dearth of magical leaps forward in Perl. Well, I take it all back. Serves me right for not recognizing hype for what it is.</p>
+<p>Each of the frameworks from other languages that I examined promised great leaps in productivity for programmers of that language. But what I came to realize was that these were improvements that I had <em>already</em> experienced in Perl. The streamlining did not come from the <em>language</em> at all. One scripting language, it seems, is pretty much as good as the next when it comes to productivity for the skilled programmer. No, the great leap forward came from applying a well organized web application development framework and its associated tools to the problem of web development, where before there had been no organized solution and only a rudimentary tool set.</p>
+<p>But I have been using Perl web application frameworks for years. (I use the plural of framework because <abbr title="There Is More Than One Way To Do It">TIMTOWTDI</abbr> in Perl.) <a href="http://perl.apache.org">Apache+mod_perl</a> is an amazingly rich web application framework on its own. Perl was (I believe) the first scripting language to be embedded in the web server itself, and is still the best option for manipulating the rich, complex internals of Apache. <a href="http://www.masonhq.com">HTML::Mason</a>'s ApacheHandler is a simple layer on top of mod_perl that is a highly effective solution to certain classes of problems. Richer, more modern frameworks like <a href="http://catalyst.perl.org">Catalyst</a> and <a href="http://jifty.org">Jifty</a> do more for you, but also require you to do more learning to get productive. In Perl, we're spoiled for choice, which is a problem all its own. But the point is, the other scripting languages haven't beat Perl in the web framework race. They are just now catching up!</p>
+<p>This is certainly not a call for Rails developers to switch to Perl. Why should they? The fact of the matter is that web frameworks in whatever language are substantially similar to one another, because they are each a solution to the exact same problem, built under similar constraints.</p>
+<p>Programmers should use whatever language fits their mind best, because that is where they will find themselves most productive. For some people, that's Java. (Some people are <em>weird</em>.) For some its Python or Ruby. More power to you. But if you are productive in Perl, don't be lured away to some other language by the greener-looking grass on their side of the fence.The grass is plenty green right here.</p>
+<p>Don't believe it? Subscribe to Webquills.net via <a href="http://feeds.feedburner.com/Webquills">RSS</a> or <a href="http://www.feedburner.com/fb/a/emailverifySubmit?feedId=929839&amp;loc=en_US">Email</a> and learn all about it.</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Forking Perl </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/forking-perl.html" />
+    <id>tag:www.webquills.net,2007-11-16:forking-perl</id>
+    <published>2007-11-16T07:11:51Z</published>
+    <updated>2007-12-15T16:43:21Z</updated>
+    <summary>One of my favorite sites, Perl Buzz, just pointed me to Kurila, an experimental Perl 5 fork. I&#x27;m not sure how I feel about that. On the one hand, I do love to see innovation in the Perl space. Perl 6 has been promised by Christmas, they just won&#x27;t say what year. I figure 2014. But Perl 6 isn&#x27;t Perl anyway, it&#x27;s a new language in (tattered) Perl clothing. Perl 5 marches on in 5.10, though, which keeps me from complaining too much.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="forkingperl">Forking Perl</h1>
+<p>One of my favorite sites, <a href="http://perlbuzz.com">Perl Buzz</a>, just pointed me to <a href="http://perlbuzz.com/2007/11/gerard-goosen-talks-about-kurila-a-perl-5-fork.html">Kurila, an experimental Perl 5 fork</a>. I'm not sure how I feel about that. On the one hand, I do love to see innovation in the Perl space. Perl 6 has been promised by Christmas, they just won't say what year. I figure 2014. But Perl 6 isn't Perl anyway, it's a new language in (tattered) Perl clothing. Perl 5 marches on in 5.10, though, which keeps me from complaining too much.</p>
+<p>On the other hand, I would hate to see Perl stagnate so much that a fork like this actually became a viable alternative for the average Perl developer. Not because the fork is bad code or has bad language implications (on the contrary, I like some of Karila's ideas), but because of what that would mean about the <em>old</em> Perl. Namely, that it started to suck worse than the alternatives.</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Movable Type Open Source - again </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-strategy/blogging/movable-type-open-source-again.html" />
+    <id>tag:www.webquills.net,2007-06-19:movable-type-open-source-again</id>
+    <published>2007-06-19T23:08:25Z</published>
+    <updated>2007-12-15T16:43:20Z</updated>
+    <summary>[UPDATE: I stand corrected. Informed commenters point out that though the source was available, MT was never technically &#x22;open source&#x22;. To quote Richard Blain, &#x22;I was misinformed&#x22; -V]</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="blogging" label="Blogging" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-strategy/blogging/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="movabletypeopensource-again">Movable Type Open Source - again</h1>
+<p>[UPDATE: I stand corrected. Informed commenters point out that though the source was available, MT was never technically "open source". To quote Richard Blain, "I was misinformed" -V]</p>
+<p>It's ironic, to me at least. When I first got interested in blog software, I heard that Movable Type was the one to beat. It was written in Perl, which was my language of choice; <strike>it was open source (so you could make your own modifications)</strike>; and it was by many accounts the most advanced blogging software out there (but not without argument, of course, this is the Internet).</p>
+<p>Five minutes after I discovered it, the company announced that their 3.0 version would carry a new, commercial license. Suddenly being Perl was useless, because I could no longer modify, fork, or crib from the code. I moved on, and finally settled on Wordpress.</p>
+<p>Now, Movable Type is <strike>once again</strike> <a href="http://www.movabletype.org/opensource/">opening its source code</a>. Thanks to Ben and Mena for contributing this code back to the community. Ultimately, open source software is not about the software, it's about the community of users, and we users appreciate it when the companies we support share with us. Keep up the good work!</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>CSS Drop Shadows: 3 Techniques </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/markup/css-drop-shadows-3-techniques.html" />
+    <id>tag:www.webquills.net,2007-06-16:css-drop-shadows-3-techniques</id>
+    <published>2007-06-16T08:49:58Z</published>
+    <updated>2009-05-15T07:28:07Z</updated>
+    <summary>Our friends over at A List Apart have been publishing pearls of wisdom for years, and here is the proof. These articles on CSS drop shadows are actually from 2004, but the techniques are still (mostly) valid today. You can probably dispense with the extra hurdles they went through to support IE for Mac, though. Does anyone use IE on the Mac anymore?</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="markup" label="Markup" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/markup/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="cssdropshadows:3techniques">CSS Drop Shadows: 3 Techniques</h1>
+<p>Our friends over at <a href="http://alistapart.com/">A List Apart</a> have been publishing pearls of wisdom for years, and here is the proof. These articles on CSS drop shadows are actually from 2004, but the techniques are still (mostly) valid today. You can probably dispense with the extra hurdles they went through to support IE for Mac, though. Does anyone use IE on the Mac anymore?</p>
+<ul>
+	<li><a href="http://alistapart.com/articles/cssdropshadows">CSS Drop Shadows</a> - A great technique with minimal image manipulation.</li>
+	<li><a href="http://alistapart.com/articles/cssdrop2/">CSS Drop Shadows II: Fuzzy Shadows</a> - An improvement on the previous drop shadow effect.</li>
+	<li><a href="http://alistapart.com/articles/onionskin/">Onion Skinned Drop Shadows</a> - And finally(?), the onion-skin technique for CSS drop shadows, for those with subtle and refined tastes.</li>
+</ul>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>links for 2007-06-13 </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/links/links-for-2007-06-13.html" />
+    <id>tag:www.webquills.net,2007-06-13:links-for-2007-06-13</id>
+    <published>2007-06-13T00:31:42Z</published>
+    <updated>2007-12-15T16:43:20Z</updated>
+    <summary>Daily del.icio.us Links Script for WordpressA Perl script for posting del.icio.us links to your wordpress blog on a regular basis. I&#x27;ll look at the code later to see if it is any better than the service Delicious provides.(tags: perl webdev blog blogging delicious wordpress)WP Plugin: Gregarious &#x3E; Vacuous VirtuosoThis Wordpress plugin goes the other way, making it easy for readers to submit your site to various social bookmarking services. I think there are many others like this too. Have search for yourself.(tags: wordpress plugin digg blog blogging)Apple Safari 3 Public Beta. For Windows. Huh?Apple has released the beta for Safari 3. The shocker: now there is a Windows version. But why? More on this later.(tags: safari browser apple windows webdev)jQuery: &#xBB; jQuery Dashboard WidgetFinally a dashboard widget I might actually use! Browse the jQuery API documentation via a fast-access Dashboard widget - even if you are offline. Nice.(tags: jquery javascript widget mac osx api documentation dashboard)</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="links" label="Links" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/links/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="linksfor2007-06-13">links for 2007-06-13</h1>
+<ul>
+	<li>
+		<div><a href="http://stephen.evilcoder.com/archives/2005/02/27/daily-delicious-links-perl-script">Daily del.icio.us Links Script for Wordpress</a></div>
+		<div>A Perl script for posting del.icio.us links to your wordpress blog on a regular basis. I'll look at the code later to see if it is any better than the service Delicious provides.</div>
+		<div>(tags: <a href="http://del.icio.us/veselosky/perl">perl</a> <a href="http://del.icio.us/veselosky/webdev">webdev</a> <a href="http://del.icio.us/veselosky/blog">blog</a> <a href="http://del.icio.us/veselosky/blogging">blogging</a> <a href="http://del.icio.us/veselosky/delicious">delicious</a> <a href="http://del.icio.us/veselosky/wordpress">wordpress</a>)</div>
+	</li>
+	<li>
+		<div><a href="http://dev.lipidity.com/feature/wp-plugin-gregarious">WP Plugin: Gregarious &gt; Vacuous Virtuoso</a></div>
+		<div>This Wordpress plugin goes the other way, making it easy for readers to submit your site to various social bookmarking services. I think there are many others like this too. Have search for yourself.</div>
+		<div>(tags: <a href="http://del.icio.us/veselosky/wordpress">wordpress</a> <a href="http://del.icio.us/veselosky/plugin">plugin</a> <a href="http://del.icio.us/veselosky/digg">digg</a> <a href="http://del.icio.us/veselosky/blog">blog</a> <a href="http://del.icio.us/veselosky/blogging">blogging</a>)</div>
+	</li>
+	<li>
+		<div><a href="http://www.apple.com/safari/">Apple Safari 3 Public Beta. For Windows. Huh?</a></div>
+		<div>Apple has released the beta for Safari 3. The shocker: now there is a Windows version. But why? More on this later.</div>
+		<div>(tags: <a href="http://del.icio.us/veselosky/safari">safari</a> <a href="http://del.icio.us/veselosky/browser">browser</a> <a href="http://del.icio.us/veselosky/apple">apple</a> <a href="http://del.icio.us/veselosky/windows">windows</a> <a href="http://del.icio.us/veselosky/webdev">webdev</a>)</div>
+	</li>
+	<li>
+		<div><a href="http://jquery.com/blog/2007/05/22/jquery-dashboard-widget/">jQuery: » jQuery Dashboard Widget</a></div>
+		<div>Finally a dashboard widget I might actually use! Browse the jQuery API documentation via a fast-access Dashboard widget - even if you are offline. Nice.</div>
+		<div>(tags: <a href="http://del.icio.us/veselosky/jquery">jquery</a> <a href="http://del.icio.us/veselosky/javascript">javascript</a> <a href="http://del.icio.us/veselosky/widget">widget</a> <a href="http://del.icio.us/veselosky/mac">mac</a> <a href="http://del.icio.us/veselosky/osx">osx</a> <a href="http://del.icio.us/veselosky/api">api</a> <a href="http://del.icio.us/veselosky/documentation">documentation</a> <a href="http://del.icio.us/veselosky/dashboard">dashboard</a>)</div>
+	</li>
+</ul>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Top 8 Online References For Webmasters </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/links/links-for-2007-06-10.html" />
+    <id>tag:www.webquills.net,2007-06-10:links-for-2007-06-10</id>
+    <published>2007-06-10T00:26:24Z</published>
+    <updated>2007-12-15T16:43:20Z</updated>
+    <summary>As a webmaster, especially if you are a solo webmaster, it&#x27;s hard to keep all the moving parts of the web in your head at once, let alone the detailed syntax of every HTML attribute and configuration option. It&#x27;s vital to have the right references at your fingertips to get those details fast. These are eight references every webmaster should have on their quick bookmarks list.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="writing" label="Writing" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/links/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="top8onlinereferencesforwebmasters">Top 8 Online References For Webmasters</h1>
+<p>As a webmaster, especially if you are a solo webmaster, it's hard to keep all the moving parts of the web in your head at once, let alone the detailed syntax of every HTML attribute and configuration option. It's vital to have the right references at your fingertips to get those details fast. These are eight references every webmaster should have on their quick bookmarks list.</p>
+<ul>
+	<li><a href="http://www.w3.org/TR/html401/">HTML 4.01 Specification</a> - Because the XHTML spec says "just like HTML 4 except..."</li>
+	<li><a href="http://www.w3.org/TR/xhtml1/">XHTML 1.0 (Second Edition)</a> - Describes the differences between HTML 4 and XHTML.</li>
+	<li><a href="http://www.w3.org/TR/CSS21/">Cascading Style Sheets, level 2 revision 1</a> - The CSS Specification.</li>
+	<li><a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">HTTP/1.1 (RFC2616)</a> - The HTTP spec, useful as a quick reference to HTTP status codes and official headers.</li>
+	<li><a href="http://developer.mozilla.org/en/docs/JavaScript">JavaScript - Mozilla Development Center</a> - Probably the best one-stop for Javascript references, including the DOM and a collection of articles on AJAX and DHTML.</li>
+	<li><a href="http://mysql.org/doc/refman/5.0/en/">MySQL 5.0 Reference Manual</a> - If you are building server-side applications, chances are very good you are using MySQL, in which case you will refer to this often.</li>
+	<li><a href="http://msdn2.microsoft.com/en-us/ie/default.aspx">Internet Explorer Developer Center</a> - If you build web front-ends, you probably spend a huge chunk of your time tweaking around the differences in various browsers. Hopefully Microsoft's docs on IE can help smooth things out.</li>
+	<li><a href="http://httpd.apache.org/docs/">Apache HTTP Server Documentaton</a> - Because you need it.</li>
+</ul>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>SOLR: Your Private Search Engine </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/links/links-for-2007-06-08.html" />
+    <id>tag:www.webquills.net,2007-06-08:links-for-2007-06-08</id>
+    <published>2007-06-08T00:27:29Z</published>
+    <updated>2007-12-15T16:43:20Z</updated>
+    <summary>If Google&#x27;s free search product is not customizable enough for your needs, perhaps what you want is your own private search engine. SOLR, a Java-based search app, might be for you. SOLR has a RESTful services API, scales way up, and allows &#x22;faceted&#x22; searching and custom data schema. Definitely worth a look if you are in the market for a custom search engine.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="links" label="Links" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/links/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="solr:yourprivatesearchengine">SOLR: Your Private Search Engine</h1>
+<p>If Google's free search product is not customizable enough for your needs, perhaps what you want is your own private search engine. <a href="http://lucene.apache.org/solr/">SOLR</a>, a Java-based search app, might be for you. SOLR has a RESTful services API, scales <em>way</em> up, and allows "faceted" searching and custom data schema. Definitely worth a look if you are in the market for a custom search engine.</p>
+<p>After you have walked through the <a href="http://lucene.apache.org/solr/tutorial.html">SOLR tutorial</a>, you may want to check out these deeper articles:</p>
+<ul>
+	<li><a href="http://www.ibm.com/developerworks/java/library/j-solr1/">Search smarter with Apache Solr, Part 1: Essential features and the Solr schema</a></li>
+	<li><a href="http://www.ibm.com/developerworks/java/library/j-solr2/index.html?ca=drs-">Search smarter with Apache Solr, Part 2: Solr for the enterprise </a>Part two of the article on SOLR gives the dirty details of using SOLR in the real world.</li>
+</ul>
+<p>(tags: <a href="http://del.icio.us/veselosky/solr">solr</a> <a href="http://del.icio.us/veselosky/search">search</a> <a href="http://del.icio.us/veselosky/lucene">lucene</a> <a href="http://del.icio.us/veselosky/Java">Java</a> <a href="http://del.icio.us/veselosky/webdev">webdev</a>)</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>links for 2007-06-04 </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/links/links-for-2007-06-04.html" />
+    <id>tag:www.webquills.net,2007-06-04:links-for-2007-06-04</id>
+    <published>2007-06-04T00:26:18Z</published>
+    <updated>2007-12-15T16:43:20Z</updated>
+    <summary>Web Professionals portfolio and profile - Professional On The Web A portfolio directory for web agencies and freelancers. Build your showcase of projects, add tags for searchability. Users can tag and rate them, too. Potential clients can find your profile with a simple search. (tags: webdesign Design portfolio community)Improving Your Process: Web Branding Style Guide This brief article is possibly one of the most brilliant I have read recently. Describes exactly why you want a style guide and what it should encompass. I can instantly see how this could have been useful in past projects. Quick read, highly recommended. (tags: webdev webdesign branding)Blog Law &#xBB; 12 Important U.S. Laws Every Blogger Needs to Know The title says all you need to know. (tags: blogging law legal copyright)Keeping Jargon Where It Belongs Another useful tip on writing for the web: watch that jargon! (tags: writing usability)Magnetic Blogging: How to Use Metaphors to Create Irresistible Content | Copyblogger Brian Clark has written another inspirational article to help you (and me) get better at that putting-words-together thing we do. (tags: writing blogging)Higher-Order JavaScript by Sean M. Burke. A JavaScriptish companion to Mark-Jason Dominus&#x27;s Higher-Order Perl (tags: javascript perl webdev programming)</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="writing" label="Writing" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/links/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="linksfor2007-06-04">links for 2007-06-04</h1>
+<ul>
+	<li><a href="http://www.professionalontheweb.com/">Web Professionals portfolio and profile - Professional On The Web</a> A portfolio directory for web agencies and freelancers. Build your showcase of projects, add tags for searchability. Users can tag and rate them, too. Potential clients can find your profile with a simple search. (tags: <a href="http://del.icio.us/veselosky/webdesign">webdesign</a> <a href="http://del.icio.us/veselosky/Design">Design</a> <a href="http://del.icio.us/veselosky/portfolio">portfolio</a> <a href="http://del.icio.us/veselosky/community">community</a>)</li>
+	<li><a href="http://mondaybynoon.com/2007/05/07/improving-your-process-web-branding-style-guide/">Improving Your Process: Web Branding Style Guide</a> This brief article is possibly one of the most brilliant I have read recently. Describes exactly why you want a style guide and what it should encompass. I can instantly see how this could have been useful in past projects. Quick read, highly recommended. (tags: <a href="http://del.icio.us/veselosky/webdev">webdev</a> <a href="http://del.icio.us/veselosky/webdesign">webdesign</a> <a href="http://del.icio.us/veselosky/branding">branding</a>)</li>
+	<li><a href="http://www.avivadirectory.com/blogger-law/">Blog Law » 12 Important U.S. Laws Every Blogger Needs to Know</a> The title says all you need to know. (tags: <a href="http://del.icio.us/veselosky/blogging">blogging</a> <a href="http://del.icio.us/veselosky/law">law</a> <a href="http://del.icio.us/veselosky/legal">legal</a> <a href="http://del.icio.us/veselosky/copyright">copyright</a>)</li>
+	<li><a href="http://www.uie.com/brainsparks/2007/05/08/keeping-jargon-where-it-belongs/">Keeping Jargon Where It Belongs</a> Another useful tip on writing for the web: watch that jargon! (tags: <a href="http://del.icio.us/veselosky/writing">writing</a> <a href="http://del.icio.us/veselosky/usability">usability</a>)</li>
+	<li><a href="http://www.copyblogger.com/magnetic-blogging/">Magnetic Blogging: How to Use Metaphors to Create Irresistible Content | Copyblogger</a> Brian Clark has written another inspirational article to help you (and me) get better at that putting-words-together thing we do. (tags: <a href="http://del.icio.us/veselosky/writing">writing</a> <a href="http://del.icio.us/veselosky/blogging">blogging</a>)</li>
+	<li><a href="http://interglacial.com/hoj/hoj.html">Higher-Order JavaScript</a> by Sean M. Burke. A JavaScriptish companion to Mark-Jason Dominus's <a href="http://hop.perl.plover.com/">Higher-Order Perl</a> (tags: <a href="http://del.icio.us/veselosky/javascript">javascript</a> <a href="http://del.icio.us/veselosky/perl">perl</a> <a href="http://del.icio.us/veselosky/webdev">webdev</a> <a href="http://del.icio.us/veselosky/programming">programming</a>)</li>
+</ul>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>links for 2007-06-03 </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/links/links-for-2007-06-03.html" />
+    <id>tag:www.webquills.net,2007-06-03:links-for-2007-06-03</id>
+    <published>2007-06-03T00:19:31Z</published>
+    <updated>2007-12-15T16:43:20Z</updated>
+    <summary>The B-List: Hypothetical framework choicesSome honest, no-hype talk about web application frameworks. A loose comparison of Django, Rails, and J2EE, but contains no detail, this is a high-level discussion. Fascinating read, esp. for me as a non-Java guy.(tags: django python java webdev)</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="links" label="Links" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/links/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="linksfor2007-06-03">links for 2007-06-03</h1>
+<ul>
+	<li>
+		<div><a href="http://www.b-list.org/weblog/2007/06/02/hypothetical-framework-choices">The B-List: Hypothetical framework choices</a></div>
+		<div>Some honest, no-hype talk about web application frameworks. A loose comparison of Django, Rails, and J2EE, but contains no detail, this is a high-level discussion. Fascinating read, esp. for me as a non-Java guy.</div>
+		<div>(tags: <a href="http://del.icio.us/veselosky/django">django</a> <a href="http://del.icio.us/veselosky/python">python</a> <a href="http://del.icio.us/veselosky/java">java</a> <a href="http://del.icio.us/veselosky/webdev">webdev</a>)</div>
+	</li>
+</ul>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>The Web Master Skill No One Talks About </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-strategy/writing/the-web-master-skill-no-one-talks-about.html" />
+    <id>tag:www.webquills.net,2007-05-31:the-web-master-skill-no-one-talks-about</id>
+    <published>2007-05-31T22:58:52Z</published>
+    <updated>2007-12-15T16:43:20Z</updated>
+    <summary>It&#x27;s ironic that the one activity that&#x27;s done most by web masters is the most ignored: writing. There are a bazillion web sites out there (and, er, one in here too) that purport to tell you about the tech, the syntax, the semantic web and whatnot. There are very few that actually give you useful assistance in the art and craft of effective writing for the digital medium. A recent article over at A List Apart, Who needs headlines? reminded me of this fact. It also reminded me of a terrific resource that any web writer should check out.</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="writing" label="Writing" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-strategy/writing/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="thewebmasterskillnoonetalksabout">The Web Master Skill No One Talks About</h1>
+<p>It's ironic that the one activity that's done most by web masters is the most ignored: writing. There are a bazillion web sites out there (and, er, one in here too) that purport to tell you about the tech, the syntax, the semantic web and whatnot. There are very few that actually give you useful assistance in the art and craft of effective writing for the digital medium. A recent article over at A List Apart, <a href="http://www.alistapart.com/articles/whoneedsheadlines">Who needs headlines?</a> reminded me of this fact. It also reminded me of a terrific resource that any web writer should check out.</p>
+<p><a href="http://www.copyblogger.com/">Copyblogger</a> is an endless stream of "copywriting tips for online marketing success", and while that may sound like hype, it really is the best site of its kind, at least that I have seen. Many thanks to Brian Clark for sharing his expertise with the world so generously. I'm ashamed to admit that I have not been following it as religiously as it deserves, but I hope I'll redeem myself by throwing some traffic in that direction. (Also, the <a href="http://www.copyblogger.com/the-copyblogger-theme-for-wordpress/">Copyblogger theme for Wordpress </a>deserves a look.)</p>
+<p>Do you have some other resources on web writing? Post a comment, I'd love to hear about them!</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>Beyond Perl? </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/beyond-perl.html" />
+    <id>tag:www.webquills.net,2007-05-30:beyond-perl</id>
+    <published>2007-05-30T21:15:51Z</published>
+    <updated>2007-12-15T16:43:20Z</updated>
+    <summary>[This was originally posted on Vince&#x27;s personal blog, but is relevant enough that it deserves reposting here, I think. -Editor]</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="beyondperl">Beyond Perl?</h1>
+<p><em>[This was originally posted on <a href="http://whatvincedid.blogspot.com">Vince's personal blog</a>, but is relevant enough that it deserves reposting here, I think. -Editor]</em></p>
+<p>That's right, I give up. Despite having devoted the last five years exclusively to Perl development, my next project will be written in another language.</p>
+<p>I am not happy about this, quite the contrary. I love Perl. I've learned so much of the ins and outs of Perl syntax vagaries that I feel like I've been married to it. But for at least a year I have been looking at the web development tools and frameworks in other languages and drooling. Where are the Perl tools that will double my productivity in web development? No, for two years I have spent most of my time <em>building</em> those tools for myself, because those available do not suit my needs and do not measure up to the tools available in several other languages. But of course, I'm not as smart as those other guys, so my home-grown tools are not as good, and not really useful outside my personal bubble.</p>
+<p>Now, the Perl fanatics out there are going to start yelling about things like <a href="http://www.catalystframework.org/">Catalyst</a> and maybe <a href="http://jifty.org/view/HomePage">Jifty</a>. Hey, I know, because I am (was) a Perl fanatic myself. But Catalyst is unnecessarily complicated. In trying to be all things to all programmers, it creates more slow-downs in overhead than it does speed-ups in infrastructure. Jifty is pretty cool, and it even comes with a pony, but it just isn't there yet, and the community behind it is comparatively small. None of the Perl frameworks I've examined make it particularly easy to implement REST-based web services (it's certainly possible, but the frameworks don't make it any easier than doing it "by hand").</p>
+<p>Now, if I had my druthers, based purely on language syntax and tools, I probably would go with Python, and a framework like <a href="http://www.djangoproject.com/">Django</a>. Django is a beautiful piece of work, in my mind the Python alternative to <a href="http://www.rubyonrails.org/">Ruby on Rails</a>, and far superior in productivity to <a href="http://zope.org/">Zope</a> or anything based on it. Also, Python's <a href="http://www.feedparser.org/">Universal Feed Parser</a> is by far the best library for manipulating RSS and Atom feeds that I have found in any language.</p>
+<p>But there are also disadvantages to choosing Django over PHP. PHP has the simplest deployment path, and is still the most broadly deployed of the open-source technologies on my radar. Django requires mod_python or FastCGI, and Rails similarly relies on FastCGI. These technologies are not widely deployed and not nearly as simple as just dropping a bundle of files into your document root.</p>
+<p>But really there are some big reasons for me to run PHP: <a href="http://www.wordpress.org" title="Wordpress">Wordpress</a>, <a href="http://www.mediawiki.org/wiki/MediaWiki">MediaWiki</a> and <a href="http://www.phpbb.com/">phpBB</a>. These are excellent applications at what they do, and I need to run them on my new web server for compatibility with previous deployments. And all are built with PHP. Since I have to have PHP installed anyway...</p>
+<p>So in addition to Django, I will also give <a href="http://www.symfony-project.com/">symfony</a> a test-drive. This is a PHP web framework. I have no experience with it yet, but it looks more mature than the <a href="http://framework.zend.com">Zend Framework</a>, seems fully capable of doing what I want, and happens to be the first hit on Google for "PHP framework", so there must be plenty of people who think it's good.</p>
+<p>My relationship with Perl has not ended. I'm still building large-scale applications with it at my day job, and I have no doubt I will turn to it when the going gets tough in my sysadmin role at home. But it's time for me to stretch my legs, to look at some other languages in the hope of finding tools that will increase my productivity the way Perl did when I first started using it. Python and Django will be my first try, followed closely by PHP and symfony. And if neither works out, well, there's always Rails.</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>links for 2007-05-30 </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/links/links-for-2007-05-30.html" />
+    <id>tag:www.webquills.net,2007-05-30:links-for-2007-05-30</id>
+    <published>2007-05-30T00:28:12Z</published>
+    <updated>2007-12-15T16:43:19Z</updated>
+    <summary>Viddler.com - Upload, Enhance, ShareLook! It&#x27;s yet another video sharing site. This one has a nice player, though, and allows you to associate tags and comments not just with the video, but with a specific scene in the video. Not bad.(tags: web2.0 video sharing)</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="links" label="Links" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/links/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="linksfor2007-05-30">links for 2007-05-30</h1>
+<ul>
+	<li>
+		<div><a href="http://www.viddler.com/">Viddler.com - Upload, Enhance, Share</a></div>
+		<div>Look! It's yet another video sharing site. This one has a nice player, though, and allows you to associate tags and comments not just with the video, but with a specific scene in the video. Not bad.</div>
+		<div>(tags: <a href="http://del.icio.us/veselosky/web2.0">web2.0</a> <a href="http://del.icio.us/veselosky/video">video</a> <a href="http://del.icio.us/veselosky/sharing">sharing</a>)</div>
+	</li>
+</ul>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>links for 2007-05-29 </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/links/links-for-2007-05-29.html" />
+    <id>tag:www.webquills.net,2007-05-28:links-for-2007-05-29</id>
+    <published>2007-05-28T21:31:28Z</published>
+    <updated>2007-12-15T16:43:19Z</updated>
+    <summary>Creating an AJAX Rating WidgetThis fascinating tutorial walks through one programmer&#x27;s implementation of a dynamic ratings &#x22;widget&#x22; using four JavaScript frameworks. He missed the Dojo getElementsByClass() function, which would have simplifed that implementation. Recommended.(tags: ajax javascript rating tutorial dojo prototype)QuirksMode - for all your browser quirksA huge collection of CSS and JavaScript tips and tricks, and one of the best sources on the WWW for studying and defeating browser incompatibilities. By Peter-Paul Koch.(tags: javascript css reference webdesign webdev)</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="links" label="Links" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/links/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="linksfor2007-05-29">links for 2007-05-29</h1>
+<ul>
+	<li>
+		<div><a href="http://www.progressive-coding.com/tutorial.php?id=6">Creating an AJAX Rating Widget</a></div>
+		<div>This fascinating tutorial walks through one programmer's implementation of a dynamic ratings "widget" using four JavaScript frameworks. He missed the Dojo getElementsByClass() function, which would have simplifed that implementation. Recommended.</div>
+		<div>(tags: <a href="http://del.icio.us/veselosky/ajax">ajax</a> <a href="http://del.icio.us/veselosky/javascript">javascript</a> <a href="http://del.icio.us/veselosky/rating">rating</a> <a href="http://del.icio.us/veselosky/tutorial">tutorial</a> <a href="http://del.icio.us/veselosky/dojo">dojo</a> <a href="http://del.icio.us/veselosky/prototype">prototype</a>)</div>
+	</li>
+	<li>
+		<div><a href="http://www.quirksmode.org/">QuirksMode - for all your browser quirks</a></div>
+		<div>A huge collection of CSS and JavaScript tips and tricks, and one of the best sources on the WWW for studying and defeating browser incompatibilities. By Peter-Paul Koch.</div>
+		<div>(tags: <a href="http://del.icio.us/veselosky/javascript">javascript</a> <a href="http://del.icio.us/veselosky/css">css</a> <a href="http://del.icio.us/veselosky/reference">reference</a> <a href="http://del.icio.us/veselosky/webdesign">webdesign</a> <a href="http://del.icio.us/veselosky/webdev">webdev</a>)</div>
+	</li>
+</ul>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>First Post! </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/web-development/perl/first-post.html" />
+    <id>tag:www.webquills.net,2007-05-26:first-post</id>
+    <published>2007-05-26T23:51:02Z</published>
+    <updated>2007-12-15T16:43:19Z</updated>
+    <summary>Yeah, it&#x27;s cliche, but hey, it&#x27;s my web site. Watch this space for actual content in the near future. Oh, Technorati wants me to link to my Technorati Profile, so there it is!</summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <category term="perl" label="Perl" />
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/web-development/perl/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="firstpost">First Post!</h1>
+<p>Yeah, it's cliche, but hey, it's my web site. Watch this space for actual content in the near future. Oh, Technorati wants me to link to my <a href="http://technorati.com/claim/5pwjh64ck7" rel="me">Technorati Profile</a>, so there it is!</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>About Webquills.net - site credits </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/credits.html" />
+    <id>tag:www.webquills.net,1970-06-07:credits</id>
+    <published>1970-06-07T09:25:00Z</published>
+    <updated>2009-06-07T09:25:00Z</updated>
+    <summary>How Webquills.net was built.  </summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="aboutwebquills.net">About Webquills.net</h1>
+<h2 id="thedesign">The Design</h2>
+<p>The design of Webquills.net is based on <a href="http://www.styleshout.com/templates/preview/EliteCircle1-1/index.html">EliteCircle 1.1</a>, a free, W3C-compliant, CSS-based website template by <a href="http://www.styleshout.com/">styleshout.com</a>. The design is generously distributed under the <a href="http://creativecommons.org/licenses/by/2.5/" rel="license"> Creative Commons Attribution 2.5 License</a>. I adapted the EliteCircle CSS for use with the <a href="http://developer.yahoo.com/yui/grids/">YUI CSS framework</a>, and modified it heavily for Webquills.net. Please assume that any bugs, layout errors, or generally unattractive bits are mine and not the fault of <a href="http://www.styleshout.com/">styleshout.com</a>.</p>
+<h2 id="thetechnology">The Technology</h2>
+<p>Webquills.net is build with <a href="http://www.webstandards.org/">web standards</a>. The server-side environment uses <a href="http://httpd.apache.org">Apache</a> with <a href="http://perl.apache.org">Mod-Perl</a>, and dynamic pages are constructed with <a href="http://masonhq.com">HTML::Mason</a>, a template system and lightweight web framework. The underlying content management software is all custom built in <a href="http://www.perl.org">Perl</a>.</p>
+</div>
+    </content>
+</entry>
+<entry>
+    <title>About Webquills.net </title>
+    <link rel="alternate" type="text/html" href="http://www.webquills.net/about.html" />
+    <id>tag:www.webquills.net,1970-06-07:about</id>
+    <published>1970-06-07T07:51:00Z</published>
+    <updated>2009-06-07T07:51:00Z</updated>
+    <summary>Webquills.net helps web developers, designers, and marketers improve the effectiveness of their web sites.  </summary>
+    <author>
+        <name>Vince Veselosky</name>
+    </author>
+    <content type="xhtml" xml:lang="en" xml:base="http://www.webquills.net/">
+    <div xmlns="http://www.w3.org/1999/xhtml"><h1 id="aboutwebquills">About Webquills</h1>
+<h2 id="theproblem">The Problem</h2>
+<p>A few years ago businesses and non-profit organizations questioned whether they needed a web presence at all. Those days are over. Now every organization assumes they need a web site as a matter of course, just like business cards. </p>
+<p>Unfortunately, many organizations put about as much thought into their web strategy as they do into their business card strategy. Which is to say, almost none. They go to a web designer and say "build us a web site" and then carry on with their business until the designer comes back with something pretty with their name on it. They sign a check, upload some files to a server, and figure they are "done" with their web strategy. This is a recipe for wasted web money and failure. An ineffective web site sits on the Internet consuming money and serving no one.</p>
+<h2 id="thesolution">The Solution</h2>
+<p>To succeed in the 21st century, your web site must be a cornerstone of your overall strategy. Whether the mission is for-profit or non-profit in nature, every organization has a mission to accomplish and a community to serve. An effective web site acts as a hub, connecting your community and facilitating your mission. It attracts visitors, engages them, informs them, persuades them to your point of view, and motivates them to act on behalf of your mission.</p>
+<p>The mission of Webquills is to supply the knowledge needed to create successful, effective web sites.</p>
+<p>For information about how this web site was made, see the <a href="http://www.webquills.net/credits.html">credits</a> page.</p>
+</div>
+    </content>
+</entry>
+
+</feed>

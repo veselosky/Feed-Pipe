@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:syn="http://purl.org/rss/1.0/modules/syndication/" xmlns:admin="http://webns.net/mvcb/">
+  <channel rdf:about="http://feeds.delicious.com">
+    <title>Delicious/veselosky</title>
+    <link>http://delicious.com/veselosky</link>
+    <description>bookmarks posted by veselosky</description>
+    <cc:license rdf:resource="http://creativecommons.org/licenses/by-nd/2.5/"/>
+    <items>
+      <rdf:Seq>
+        <rdf:li rdf:resource="http://dev.chromium.org/spdy/spdy-whitepaper"/>
+        <rdf:li rdf:resource="http://spinlock.ch/pub/feincms/html/"/>
+        <rdf:li rdf:resource="http://slott-softwarearchitect.blogspot.com/2009/10/breaking-into-agile.html"/>
+        <rdf:li rdf:resource="http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way"/>
+        <rdf:li rdf:resource="http://www.alistapart.com/articles/you-can-get-there-from-here-websites-for-learners/"/>
+        <rdf:li rdf:resource="http://www.dragonsword.com/magic.php"/>
+        <rdf:li rdf:resource="http://stuntsoftware.com/OnTheJob/"/>
+        <rdf:li rdf:resource="http://www.toggl.com/"/>
+        <rdf:li rdf:resource="http://articles.sitepoint.com/article/overcome-cache-conundrums"/>
+        <rdf:li rdf:resource="http://www.officetime.net/index.html"/>
+        <rdf:li rdf:resource="http://www.fanuriotimetracking.com/index.html"/>
+        <rdf:li rdf:resource="http://time-tracker.avh4.net/"/>
+        <rdf:li rdf:resource="http://cwiki.apache.org/confluence/display/TS/Traffic+Server"/>
+        <rdf:li rdf:resource="http://studyskills.suite101.com/article.cfm/smart_goals_for_college_students"/>
+        <rdf:li rdf:resource="http://www.webdirections.org/blog/web-directions-south-09-resources-many-more-now-online/"/>
+      </rdf:Seq>
+    </items>
+  </channel>
+  <item rdf:about="http://dev.chromium.org/spdy/spdy-whitepaper">
+    <title>SPDY: An experimental protocol for a faster web</title>
+    <dc:date>2009-11-14T20:25:01Z</dc:date>
+    <link>http://dev.chromium.org/spdy/spdy-whitepaper</link>
+    <dc:creator>veselosky</dc:creator>
+    <description>Just in case you didn&amp;#039;t already know that Google is populated with extremely smart people, these folks are trying to accelerate the web by rewriting the HTTP protocol itself, adding things like header compression and multiplexing requests. Still just an experiment, but tomorrow...?</description>
+    <dc:subject>google http protocol web performance spdy webdev</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/google"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/http"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/protocol"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/web"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/performance"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/spdy"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/webdev"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://spinlock.ch/pub/feincms/html/">
+    <title>FeinCMS - An extensible Django-based CMS — FeinCMS v1.0.4 documentation</title>
+    <dc:date>2009-11-12T20:47:42Z</dc:date>
+    <link>http://spinlock.ch/pub/feincms/html/</link>
+    <dc:creator>veselosky</dc:creator>
+    <dc:subject>django cms python</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/django"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/cms"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/python"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://slott-softwarearchitect.blogspot.com/2009/10/breaking-into-agile.html">
+    <title>Breaking into Agile: Real World vs. Management Fantasyland</title>
+    <dc:date>2009-11-07T10:40:07Z</dc:date>
+    <link>http://slott-softwarearchitect.blogspot.com/2009/10/breaking-into-agile.html</link>
+    <dc:creator>veselosky</dc:creator>
+    <description>Do &amp;quot;enterprises&amp;quot; adopt agile methods, or do they *adapt* agile methods to their warped corporate view of reality? Here&amp;#039;s a great description of why process Nazis in agile methodologies are oxymoronic. It&amp;#039;s not about process, it&amp;#039;s about people and their problems. The whole point of &amp;quot;agile&amp;quot; is not to let process get in the way of problem solving.</description>
+    <dc:subject>agile development methodology webdev</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/agile"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/development"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/methodology"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/webdev"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way">
+    <title>Hosting Git repositories, The Easy (and Secure) Way</title>
+    <dc:date>2009-11-05T21:11:50Z</dc:date>
+    <link>http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way</link>
+    <dc:creator>veselosky</dc:creator>
+    <description>A fancier and better(?) method of managing your git repositories.</description>
+    <dc:subject>git hosting server versioncontrol development</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/git"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/hosting"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/server"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/versioncontrol"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/development"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://www.alistapart.com/articles/you-can-get-there-from-here-websites-for-learners/">
+    <title>You Can Get There From Here: Websites for Learners</title>
+    <dc:date>2009-11-05T11:16:59Z</dc:date>
+    <link>http://www.alistapart.com/articles/you-can-get-there-from-here-websites-for-learners/</link>
+    <dc:creator>veselosky</dc:creator>
+    <dc:subject>education learning webdesign usability</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/education"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/learning"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/webdesign"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/usability"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://www.dragonsword.com/magic.php">
+    <title>DragonSword.com :: Master of Magic Resource Home</title>
+    <dc:date>2009-11-05T11:02:43Z</dc:date>
+    <link>http://www.dragonsword.com/magic.php</link>
+    <dc:creator>veselosky</dc:creator>
+    <dc:subject>games</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/games"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://stuntsoftware.com/OnTheJob/">
+    <title>On The Job 3 - Time &amp; Expense Tracking and Invoicing for Mac OS X</title>
+    <dc:date>2009-11-04T13:34:06Z</dc:date>
+    <link>http://stuntsoftware.com/OnTheJob/</link>
+    <dc:creator>veselosky</dc:creator>
+    <dc:subject>timetracking productivity software mac</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/timetracking"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/productivity"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/software"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/mac"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://www.toggl.com/">
+    <title>Toggl - Time tracking that works</title>
+    <dc:date>2009-11-04T13:33:34Z</dc:date>
+    <link>http://www.toggl.com/</link>
+    <dc:creator>veselosky</dc:creator>
+    <dc:subject>productivity tools timetracking</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/productivity"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/tools"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/timetracking"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://articles.sitepoint.com/article/overcome-cache-conundrums">
+    <title>Overcome Your Caching Conundrums [Server Side Essentials]</title>
+    <dc:date>2009-11-04T13:06:29Z</dc:date>
+    <link>http://articles.sitepoint.com/article/overcome-cache-conundrums</link>
+    <dc:creator>veselosky</dc:creator>
+    <description>A very clever trick you can do with any web server that allows you to use long cache times for static files (a recommended best practice) and still update the files at will. This is one of those &amp;quot;I should have thought of that myself&amp;quot; methods that is seemingly obvious yet brilliant.</description>
+    <dc:subject>caching optimization css javascript webdev cache</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/caching"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/optimization"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/css"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/javascript"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/webdev"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/cache"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://www.officetime.net/index.html">
+    <title>Intuitive Time Tracking Software for Mac and Windows.</title>
+    <dc:date>2009-11-03T18:31:00Z</dc:date>
+    <link>http://www.officetime.net/index.html</link>
+    <dc:creator>veselosky</dc:creator>
+    <dc:subject>timetracking software mac productivity osx</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/timetracking"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/software"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/mac"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/productivity"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/osx"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://www.fanuriotimetracking.com/index.html">
+    <title>Fanurio - Time tracking software for freelancers</title>
+    <dc:date>2009-11-03T18:27:55Z</dc:date>
+    <link>http://www.fanuriotimetracking.com/index.html</link>
+    <dc:creator>veselosky</dc:creator>
+    <dc:subject>timetracking software productivity</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/timetracking"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/software"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/productivity"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://time-tracker.avh4.net/">
+    <title>Time Tracker for Mac - Home</title>
+    <dc:date>2009-11-03T18:26:43Z</dc:date>
+    <link>http://time-tracker.avh4.net/</link>
+    <dc:creator>veselosky</dc:creator>
+    <dc:subject>productivity mac software timetracking osx</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/productivity"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/mac"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/software"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/timetracking"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/osx"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://cwiki.apache.org/confluence/display/TS/Traffic+Server">
+    <title>Traffic Server - Apache Software Foundation</title>
+    <dc:date>2009-11-03T17:39:35Z</dc:date>
+    <link>http://cwiki.apache.org/confluence/display/TS/Traffic+Server</link>
+    <dc:creator>veselosky</dc:creator>
+    <description>Traffic Server is fast, scalable and extensible HTTP/1.1 compliant caching proxy server. Formerly a commercial product (created by Inktomi, later acquired by Yahoo!), it is now being developed as an Apache Incubator Project</description>
+    <dc:subject>apache proxy http opensource cache scalability networking</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/apache"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/proxy"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/http"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/opensource"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/cache"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/scalability"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/networking"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://studyskills.suite101.com/article.cfm/smart_goals_for_college_students">
+    <title>SMART Goals: Specific, Measurable, Attainable, Relevant, &amp; Time Bound Objectives</title>
+    <dc:date>2009-11-03T16:50:45Z</dc:date>
+    <link>http://studyskills.suite101.com/article.cfm/smart_goals_for_college_students</link>
+    <dc:creator>veselosky</dc:creator>
+    <description>This article is aimed at college students, but really is just about goal-setting in general. And the inspiration comes straight from the great Peter Drucker, q.v.</description>
+    <dc:subject>productivity goal-setting projectmanagement</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/productivity"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/goal-setting"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/projectmanagement"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+  <item rdf:about="http://www.webdirections.org/blog/web-directions-south-09-resources-many-more-now-online/">
+    <title>Web Directions South 09 Resources</title>
+    <dc:date>2009-11-02T19:34:40Z</dc:date>
+    <link>http://www.webdirections.org/blog/web-directions-south-09-resources-many-more-now-online/</link>
+    <dc:creator>veselosky</dc:creator>
+    <description>Presentations from the Web Directions South 2009 conference are now online, with audio and slides!</description>
+    <dc:subject>conference webdev podcast</dc:subject>
+    <taxo:topics>
+      <rdf:Bag>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/conference"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/webdev"/>
+        <rdf:li rdf:resource="http://delicious.com/veselosky/podcast"/>
+      </rdf:Bag>
+    </taxo:topics>
+  </item>
+</rdf:RDF>
