@@ -5,15 +5,17 @@ use Log::Any;
 
 use XML::Feed;
 use XML::Atom;
+use XML::Atom::Feed;
 $XML::Atom::DefaultVersion = 1.0;
 
 has feed => 
-    ( is => 'ro'
-    , isa => 'XML::Feed'
+    ( is => 'rw'
+    , isa => 'XML::Atom::Feed'
     , lazy_build => 1
-    , handles => [qw(as_xml author category contributor entries generator icon id link logo rights subtitle title updated)]
+    , handles => [qw(as_xml author authors base category categories contributor contributors entries generator icon id lang link links logo rights subtitle title updated)]
     );
-sub _build_feed { XML::Feed->new('Atom') }
+sub _build_feed { XML::Atom::Feed->new() }
+
 
 # FIXME: I really want this to add a <source> element to each entry so it can 
 # be traced back to its origin. And to be much more clever. And not to rely
@@ -21,12 +23,55 @@ sub _build_feed { XML::Feed->new('Atom') }
 sub cat {
     my ($proto, @feed_urls) = @_;
     my $self = ref($proto) ? $proto : $proto->new();
+    my $logger = Log::Any->get_logger(category => ref($self));
+    $logger->debugf('cat: %s', \@feed_urls);
     
     # This is a horrible, terrible HACK. I wish I were smarter.
-    my @feeds = map { my $f = XML::Feed->parse($_); $f->convert('Atom'); $f } @feed_urls;
-    $self->feed->splice($_) for @feeds;
-    
+    # Use XML::Feed to convert from RSS to Atom.
+    foreach my $f (@feed_urls) {
+        my $feed = XML::Feed->parse($f);
+        foreach my $entry ($feed->entries) {
+            $self->feed->add_entry( $entry->convert('Atom')->unwrap );
+        }
+    }
     return $self; # ALWAYS return $self for chaining!
+}
+
+# For the moment we implement only the default date sort. Later we will
+# accept arguments that allow sorting by other properties.
+sub sort {
+    my ($self) = @_;
+    # Stupid lib doesn't let you manipulate the entry list, so we 
+    # reconstruct it. FIXME! This will lose all non-entry elements!
+    my $feed = XML::Atom::Feed->new();
+    my @entries = sort { ($b->updated||$b->published) cmp ($a->updated||$a->published) } $self->feed->entries;
+    $feed->add_entry($_) for @entries;
+    $self->feed($feed);
+    return $self; # ALWAYS return $self for chaining!
+}
+
+sub head {
+    my ($self, $limit) = @_;
+    $limit ||= 10;
+    # Stupid lib doesn't let you manipulate the entry list, so we 
+    # reconstruct it. FIXME! This will lose all non-entry elements!
+    my $feed = XML::Atom::Feed->new();
+    my @entries = $self->feed->entries;
+    $feed->add_entry($_) for splice(@entries,0,$limit);
+    $self->feed($feed);
+    return $self; # ALWAYS return $self for chaining!
+}
+
+sub tail {
+    my ($self, $limit) = @_;
+    $limit ||= 10;
+    # Stupid lib doesn't let you manipulate the entry list, so we 
+    # reconstruct it. FIXME! This will lose all non-entry elements!
+    my $feed = XML::Atom::Feed->new();
+    my @entries = $self->feed->entries;
+    $feed->add_entry($_) for splice(@entries,-$limit);
+    $self->feed($feed);
+    return $self; # ALWAYS return $self for chaining! 
 }
 
 
