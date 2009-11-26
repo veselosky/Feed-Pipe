@@ -92,23 +92,61 @@ Feed::Pipe - Pipe Atom/RSS feeds through UNIX-style high-level filters
 
 =head1 DESCRIPTION
 
-Yes, you could do this with Yahoo Pipes. Until they decide to take it down, or start charging for it. And if your code is guaranteed to have Internet access.
+This module is a set of utilities that mimic the functionality of standard UNIX 
+text processing tools, but instead of operating on lines of a text file, they
+operate on entries in an Atom (or RSS) feed. The idea is to provide a
+high-level tool set for slicing, dicing, and otherwise manipulating bunches
+of Atom data from various feeds.
 
-Also, you could probably do it with Plagger, if you're genius enough to figure out how.
+Yes, you could do this with Yahoo Pipes. Until they decide to take it down, 
+or start charging for it. And if your code is guaranteed to have Internet 
+access.
 
-=head1 METHODS
+Also, you could probably do it with Plagger, if you're genius enough to figure
+out how.
 
-=head2 C<as_xml>
-
-Serialize the feed object to an XML string and return the string. If you call
-this in a chain, it must be the last thing you do, since it returns a string
-and not the pipe itself.
+=head1 FILTER METHODS
 
 =head2 C<cat(@feeds)>
 
 Effectively the constructor, every pipe begins by calling C<cat> on some list
 of feeds. This will combine entries in the order received into a single feed.
 Like most methods, returns the pipe itself so that you can chain method calls.
+
+=head2 C<head(Int $limit=10)>
+
+Outputs C<$limit> entries from the top of the feed, where C<$limit> defaults to
+10. If your entries are sorted in standard reverse chronological order, this
+will pull the C<$limit> most recent entries.
+
+Like most methods, returns the pipe itself so that you can chain method calls.
+
+=head2 C<sort>
+
+Sorts the feed's entries in standard reverse chronological order. Sorry, no 
+other sort order is possible in this release, but that is considered a bug 
+and will be corrected in the future.
+
+Like most methods, returns the pipe itself so that you can chain method calls.
+
+=head2 C<tail(Int $limit=10)>
+
+Outputs C<$limit> entries from the end of the feed, where C<$limit> defaults to
+10. If your entries are sorted in standard reverse chronological order, this
+will pull the C<$limit> oldest entries.
+
+Like most methods, returns the pipe itself so that you can chain method calls.
+
+=head1 OTHER METHODS
+
+B<NOTE: These methods are not filters. They do not return the feed pipe and
+must not be used in a filter chain (except maybe at the end).>
+
+=head2 C<as_xml>
+
+Serialize the feed object to an XML string and return the string. If you call
+this in a chain, it must be the last thing you do, since it returns a string
+and not the pipe itself.
 
 
 =head1 AUTHOR
