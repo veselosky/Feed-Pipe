@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 use strict;
 use Test::More tests =>
-9;
+13;
 use FindBin;
 use Path::Class;
 use Log::Log4perl qw(:easy);
@@ -18,15 +18,16 @@ my @feeds =
 , file($FindBin::Bin, 'rss2wp.xml')->stringify # RSS 2 from Wordpress
 );
 
-my $feed = Feed::Pipe->new(title => 'Test Feed')
-    ->cat(@feeds)
-    ->sort
-;
+my $feed = Feed::Pipe->new(title => 'Test Feed')->cat(@feeds);
 $feed->title("Test Feed");
 
+my ($first) = $feed->entries;
+is $first->published, '2009-06-19T16:50:00Z', 'cat adds entries in original order';
 is $feed->count, 10, 'total entries';
 
-my ($first) = $feed->entries;
+$feed->sort;
+
+($first) = $feed->entries;
 #is $first->published, '2009-11-14T20:25:01Z', 'sorted most recent first';
 is $first->published, '2009-11-18T03:48:04Z', 'sorted most recent first';
 diag join "\n", map { $_->updated||$_->published } $feed->entries;
@@ -40,9 +41,35 @@ $feed->head(6);
 ($first) = $feed->entries;
 is $feed->count, 6, 'head removes entries';
 is $first->published, '2009-11-12T20:47:42Z', 'head pulls from head';
+diag $first->title if $first->content||$first->summary;
+
+$feed->reverse;
+($first) = $feed->entries;
+is $first->published, '2009-04-26T21:38:26Z', 'reverse';
 diag join "\n", map { $_->updated||$_->published } $feed->entries;
+
+# Item with date 2009-11-12T20:47:42Z has no content or summary, should
+# be filtered out.
+$feed->grep;
+$first = $feed->_entry_at(-1);
+is $first->published, '2009-11-07T10:40:07Z', 'grep removes no-content items by default';
+diag join "\n", map { $_->updated||$_->published } $feed->entries;
+
+my $atom = $feed->as_atom_obj;
+isa_ok $atom, 'XML::Atom::Feed', 'as_atom_obj return value';
 
 my $xml = $feed->as_xml;
 my $atom = XML::Atom::Feed->new(\$xml);
 isa_ok($atom, 'XML::Atom::Feed', 'round trip serialization appears to work,');
 is $atom->title, 'Test Feed', 'title set and preserved';
+
+
+
+
+
+
+
+
+
+
+

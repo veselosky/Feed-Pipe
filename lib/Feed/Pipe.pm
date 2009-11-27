@@ -88,12 +88,16 @@ sub cat {
     return $self; # ALWAYS return $self for chaining!
 }
 
-# For the moment we implement only the default date sort. Later we will
-# accept arguments that allow sorting by other properties.
 sub sort {
     my ($self, $sub) = @_;
     $sub ||= sub { ($_[1]->updated||$_[1]->published) cmp ($_[0]->updated||$_[0]->published) };
     $self->_sort_in_place($sub);
+    return $self; # ALWAYS return $self for chaining!
+}
+
+sub reverse {
+    my ($self) = @_;
+    $self->_entries([reverse $self->entries]);
     return $self; # ALWAYS return $self for chaining!
 }
 
@@ -111,11 +115,18 @@ sub tail {
     return $self; # ALWAYS return $self for chaining! 
 }
 
+sub grep {
+    my ($self, $sub) = @_;
+    $sub ||= sub { $_->content||$_->summary };
+    $self->_entries([$self->_grep($sub)]);
+    return $self; # ALWAYS return $self for chaining!
+}
+
+
 #--------------------------------------------------------------------
 # OTHER METHODS
 #--------------------------------------------------------------------
-
-sub as_xml {
+sub as_atom_obj {
     my ($self) = @_;
     my $feed = XML::Atom::Feed->new;
     # FIXME: Add support for (at least) the following elements: author category
@@ -124,7 +135,12 @@ sub as_xml {
     $feed->id($self->id);
     $feed->updated(DateTime::Format::HTTP->format_isoz($self->updated));
     $feed->add_entry($_) for $self->entries;
-    return $feed->as_xml;
+    return $feed;
+}
+
+sub as_xml {
+    my ($self) = @_;
+    return $self->as_atom_obj->as_xml;
 }
 
 
@@ -139,45 +155,40 @@ Feed::Pipe - Pipe Atom/RSS feeds through UNIX-style high-level filters
 
 =head1 SYNOPSIS
 
-    # TODO
-
+    use Feed::Pipe;
+    my $pipe = Feed::Pipe
+        ->new(title => "Mah Bukkit")
+        ->cat( qw(1.xml 2.rss 3.atom) )
+        ->grep(sub{$_->title =~ /lolrus/i })
+        ->sort
+        ->head
+        ;
+    my $feed = $pipe->as_atom_obj; # returns XML::Atom::Feed
+    print $feed->as_xml;
 
 =head1 DESCRIPTION
 
-B<WARNING: This API is highly unstable. I am still noodling. Do not use this
+B<WARNING: This API is still evolving. I am still noodling. Do not use this
 in production unless your name is Veselosky, or you are willing to refactor
 at my whim.>
 
-This module is a Feed model that can mimic the functionality of standard UNIX pipe and filter style text processing tools. Instead of operating on lines from text files, itoperates on entries from Atom (or RSS) feeds. The idea is to provide ahigh-level tool set for combining, filtering, and otherwise manipulating bunchesof Atom data from various feeds.
+This module is a Feed model that can mimic the functionality of standard UNIX pipe and filter style text processing tools. Instead of operating on lines from text files, it operates on entries from Atom (or RSS) feeds. The idea is to provide a high-level tool set for combining, filtering, and otherwise manipulating bunches of Atom data from various feeds.
 
 Yes, you could do this with Yahoo Pipes. Until they decide to take it down, 
 or start charging for it. And if your code is guaranteed to have Internet 
 access.
 
-Also, you could probably do it with Plagger, if you're genius enough to figure
+Also, you could probably do it with L<Plagger>, if you're genius enough to figure
 out how.
 
 =head1 CONSTRUCTOR
 
-To construct a feed pipe, call C<new(%options)>, where C<%options> can include:
+To construct a feed pipe, call C<new(%options)>, where the keys of C<%options> 
+correspond to any of the method names described under ACCESSOR METHODS. If you 
+do not need to set any options, C<cat> may also be called on a class and will
+return an instance.
 
-=over
-
-=item title
-
-Human readable title of the feed. Defaults to "Combined Feed".
-
-=item id
-
-A string conforming to the definition of an Atom ID. Defaults to a newly
-generated UUID.
-
-=item updated
-
-A DateTime object representing when the feed should claim to have been updated.
-Defaults to "now".
-
-=back
+    my $pipe = Feed::Pipe->new(title => 'Test Feed');
 
 =head1 FILTER METHODS
 
@@ -185,9 +196,28 @@ Defaults to "now".
 
 Combine entries from each feed listed, in the order received, into a single feed.
 RSS feeds will automatically be converted to Atom before their entries are
-added.
+added. (NOTE: Some data may be lost in the conversion. See L<XML::Feed>.)
 
-Returns the feed itself so that you can chain method calls.
+If called as a class method, will implicitly call C<new> with no options
+to return an instance before adding the passed C<@feeds>.
+
+Returns the feed pipe itself so that you can chain method calls.
+
+    my $pipe = Feed::Pipe->new(title => 'Test')->cat(@feeds);
+    # This also works:
+    my $pipe = Feed::Pipe->cat(@feeds);
+
+=head2 C<grep(sub{})>
+
+Filters the list of entries to those for which the passed function returns
+true. If no function is passed, the default is to keep entries which have
+C<content> (or a C<summary>). The function should test the entry object 
+aliased in C<$_> which will be a L<XML::Atom::Entry>.
+
+    # Keeps all entries with the word "Keep" in the title
+    Feed::Pipe->new->cat($feed)->grep( sub { $_->title =~ /Keep/ } );
+
+Returns the feed pipe itself so that you can chain method calls.
 
 =head2 C<head(Int $limit=10)>
 
@@ -195,15 +225,25 @@ Output C<$limit> entries from the top of the feed, where C<$limit> defaults to
 10. If your entries are sorted in standard reverse chronological order, this
 will pull the C<$limit> most recent entries.
 
-Returns the feed itself so that you can chain method calls.
+Returns the feed pipe itself so that you can chain method calls.
 
-=head2 C<sort>
+=head2 C<reverse()>
 
-Sort the feed's entries in standard reverse chronological order. Sorry, no 
-other sort order is possible in this release, but that is considered a bug 
-and will be corrected in the future.
+Returns the feed with entries sorted in the opposite of the input order. This
+is just for completeness, you could easily do this with C<sort> instead.
 
-Returns the feed itself so that you can chain method calls.
+=head2 C<sort(sub{})>
+
+Sort the feed's entries using the comparison function passed as the argument.
+If no function is passed, sorts in standard reverse chronological order.
+The sort function should be as described in Perl's L<sort>, but using
+C<$_[0]> and C<$_[1]> in place of C<$a> and  C<$b>, respectively. The two
+arguments will be L<XML::Atom::Entry> objects.
+
+    # Returns a feed with entries sorted by title
+    Feed::Pipe->cat($feed)->sort(sub{$_[0]->title cmp $_[1]->title});
+
+Returns the feed pipe itself so that you can chain method calls.
 
 =head2 C<tail(Int $limit=10)>
 
@@ -211,17 +251,44 @@ Output C<$limit> entries from the end of the feed, where C<$limit> defaults to
 10. If your entries are sorted in standard reverse chronological order, this
 will pull the C<$limit> oldest entries.
 
-Returns the feed itself so that you can chain method calls.
+Returns the feed pipe itself so that you can chain method calls.
+
+=head1 ACCESSOR METHODS
+
+B<NOTE: These methods are not filters. They do not return the feed pipe and
+must not be used in a filter chain (except maybe at the end).>
+
+=head2 title
+
+Human readable title of the feed. Defaults to "Combined Feed".
+
+=head2 id
+
+A string conforming to the definition of an Atom ID. Defaults to a newly
+generated UUID.
+
+=head2 updated
+
+A DateTime object representing when the feed should claim to have been updated.
+Defaults to "now".
 
 =head1 OTHER METHODS
 
 B<NOTE: These methods are not filters. They do not return the feed pipe and
 must not be used in a filter chain (except maybe at the end).>
 
+=head2 C<as_atom_obj>
+
+Returns the L<XML::Atom::Feed> object represented by the feed pipe.
+
 =head2 C<as_xml>
 
 Serialize the feed object to an XML (Atom 1.0) string and return the string. 
-(Delegated to L<XML::Atom>.)
+Equivalent to calling C<$feed-E<gt>as_atom_obj-E<gt>as_xml>. NOTE: The current
+implementation does not guarantee that the resultant output will be valid Atom.
+In particular, you are likely to be missing required C<author> and C<link>
+elements. For the moment, you should use C<as_atom_obj> and manipulate the
+feed-level elements as needed if you require validatable output.
 
 =head2 C<count>
 
@@ -230,18 +297,6 @@ Returns the number of entries in the feed.
 =head2 C<entries>
 
 Returns the list of L<XML::Atom::Entry> objects in the feed.
-
-=head2 C<id>
-
-Returns the id of the feed.
-
-=head2 C<title>
-
-Returns the title of the feed.
-
-=head2 C<updated>
-
-Returns a DateTime object representing the updated time of the feed.
 
 =head1 AUTHOR
 
