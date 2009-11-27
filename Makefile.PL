@@ -7,12 +7,13 @@ author   q{Vince Veselosky <vince@control-escape.com>};
 license  'mit';
 
 # For Feed::Pipe
+requires 'Data::UUID';
+requires 'DateTime::Format::HTTP';
 requires 'Log::Any', '0.05';
 requires 'Moose', '0.92';
 requires 'MooseX::Types', '0.19';
 requires 'XML::Feed', '0.43';
 requires 'XML::Atom', '0.35';
-
 
 build_requires 'Test::More';
 

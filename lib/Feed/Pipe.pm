@@ -1,21 +1,72 @@
 package Feed::Pipe;
+# Housekeeping
 use Moose;
-our $VERSION = '0.001';
+use Feed::Pipe::Types qw(ArrayRef AtomEntry AtomFeed Datetime Str Uri);
 use Log::Any;
 
+our $VERSION = '0.001';
+
+# Code
+use DateTime;
+use DateTime::Format::HTTP;
 use XML::Feed;
 use XML::Atom;
 use XML::Atom::Feed;
 $XML::Atom::DefaultVersion = 1.0;
 
-has feed => 
-    ( is => 'rw'
-    , isa => 'XML::Atom::Feed'
-    , lazy_build => 1
-    , handles => [qw(as_xml author authors base category categories contributor contributors entries generator icon id lang link links logo rights subtitle title updated)]
-    );
-sub _build_feed { XML::Atom::Feed->new() }
+#--------------------------------------------------------------------
+# ATTRIBUTES
+#--------------------------------------------------------------------
+# has feed => 
+#     ( is => 'rw'
+#     , isa => AtomFeed
+#     , lazy_build => 1
+#     # Note: entries() is handled by _entries below
+#     , handles => [qw(as_xml author authors base category categories contributor contributors generator icon lang link links logo rights subtitle )]
+#     );
+# sub _build_feed { XML::Atom::Feed->new() }
 
+has id => (is => 'rw', isa => Str, lazy_build => 1);
+sub _build_id { 
+    require Data::UUID; 
+    my $gen = Data::UUID->new;
+    return 'urn:'.$gen->to_string($gen->create()); 
+}
+
+has title => (is => 'rw', isa => Str, default => "Combined Feed");
+
+has updated => (is => 'rw', isa => Datetime, lazy_build => 1, coerce => 1);
+sub _build_updated { DateTime->now() }
+
+has _entries => 
+    ( is => 'rw'
+    , traits => ['Array']
+    , isa => ArrayRef[AtomEntry]
+    , default => sub {[]}
+    , handles =>
+        { count => 'count'
+        , entries => 'elements'
+        , _clear => 'clear'
+        , _delete => 'delete'
+        , _entry_at => 'accessor'
+        , _first => 'first'
+        , _get => 'get'
+        , _grep => 'grep'
+        , _insert => 'insert'
+        , _map => 'map'
+        , _pop => 'pop'
+        , _push => 'push'
+        , _shift => 'shift'
+        , _shuffle => 'shuffle'
+        , _sort_in_place => 'sort_in_place'
+        # , _splice => 'splice'
+        , _unshift => 'unshift'
+        }
+    );
+
+#--------------------------------------------------------------------
+# FILTER METHODS
+#--------------------------------------------------------------------
 
 # FIXME: I really want this to add a <source> element to each entry so it can 
 # be traced back to its origin. And to be much more clever. And not to rely
@@ -31,7 +82,7 @@ sub cat {
     foreach my $f (@feed_urls) {
         my $feed = XML::Feed->parse($f);
         foreach my $entry ($feed->entries) {
-            $self->feed->add_entry( $entry->convert('Atom')->unwrap );
+            $self->_push( $entry->convert('Atom')->unwrap );
         }
     }
     return $self; # ALWAYS return $self for chaining!
@@ -40,40 +91,41 @@ sub cat {
 # For the moment we implement only the default date sort. Later we will
 # accept arguments that allow sorting by other properties.
 sub sort {
-    my ($self) = @_;
-    # Stupid lib doesn't let you manipulate the entry list, so we 
-    # reconstruct it. FIXME! This will lose all non-entry elements!
-    my $feed = XML::Atom::Feed->new();
-    my @entries = sort { ($b->updated||$b->published) cmp ($a->updated||$a->published) } $self->feed->entries;
-    $feed->add_entry($_) for @entries;
-    $self->feed($feed);
+    my ($self, $sub) = @_;
+    $sub ||= sub { ($_[1]->updated||$_[1]->published) cmp ($_[0]->updated||$_[0]->published) };
+    $self->_sort_in_place($sub);
     return $self; # ALWAYS return $self for chaining!
 }
 
 sub head {
     my ($self, $limit) = @_;
     $limit ||= 10;
-    # Stupid lib doesn't let you manipulate the entry list, so we 
-    # reconstruct it. FIXME! This will lose all non-entry elements!
-    my $feed = XML::Atom::Feed->new();
-    my @entries = $self->feed->entries;
-    $feed->add_entry($_) for splice(@entries,0,$limit);
-    $self->feed($feed);
+    $self->_entries([splice(@{$self->_entries},0,$limit)]);
     return $self; # ALWAYS return $self for chaining!
 }
 
 sub tail {
     my ($self, $limit) = @_;
     $limit ||= 10;
-    # Stupid lib doesn't let you manipulate the entry list, so we 
-    # reconstruct it. FIXME! This will lose all non-entry elements!
-    my $feed = XML::Atom::Feed->new();
-    my @entries = $self->feed->entries;
-    $feed->add_entry($_) for splice(@entries,-$limit);
-    $self->feed($feed);
+    $self->_entries([splice(@{$self->_entries},-$limit)]);
     return $self; # ALWAYS return $self for chaining! 
 }
 
+#--------------------------------------------------------------------
+# OTHER METHODS
+#--------------------------------------------------------------------
+
+sub as_xml {
+    my ($self) = @_;
+    my $feed = XML::Atom::Feed->new;
+    # FIXME: Add support for (at least) the following elements: author category
+    # contributor generator icon link logo rights subtitle
+    $feed->title($self->title);
+    $feed->id($self->id);
+    $feed->updated(DateTime::Format::HTTP->format_isoz($self->updated));
+    $feed->add_entry($_) for $self->entries;
+    return $feed->as_xml;
+}
 
 
 no Moose;
@@ -92,11 +144,11 @@ Feed::Pipe - Pipe Atom/RSS feeds through UNIX-style high-level filters
 
 =head1 DESCRIPTION
 
-This module is a set of utilities that mimic the functionality of standard UNIX 
-text processing tools, but instead of operating on lines of a text file, they
-operate on entries in an Atom (or RSS) feed. The idea is to provide a
-high-level tool set for slicing, dicing, and otherwise manipulating bunches
-of Atom data from various feeds.
+B<WARNING: This API is highly unstable. I am still noodling. Do not use this
+in production unless your name is Veselosky, or you are willing to refactor
+at my whim.>
+
+This module is a Feed model that can mimic the functionality of standard UNIX pipe and filter style text processing tools. Instead of operating on lines from text files, itoperates on entries from Atom (or RSS) feeds. The idea is to provide ahigh-level tool set for combining, filtering, and otherwise manipulating bunchesof Atom data from various feeds.
 
 Yes, you could do this with Yahoo Pipes. Until they decide to take it down, 
 or start charging for it. And if your code is guaranteed to have Internet 
@@ -105,37 +157,61 @@ access.
 Also, you could probably do it with Plagger, if you're genius enough to figure
 out how.
 
+=head1 CONSTRUCTOR
+
+To construct a feed pipe, call C<new(%options)>, where C<%options> can include:
+
+=over
+
+=item title
+
+Human readable title of the feed. Defaults to "Combined Feed".
+
+=item id
+
+A string conforming to the definition of an Atom ID. Defaults to a newly
+generated UUID.
+
+=item updated
+
+A DateTime object representing when the feed should claim to have been updated.
+Defaults to "now".
+
+=back
+
 =head1 FILTER METHODS
 
 =head2 C<cat(@feeds)>
 
-Effectively the constructor, every pipe begins by calling C<cat> on some list
-of feeds. This will combine entries in the order received into a single feed.
-Like most methods, returns the pipe itself so that you can chain method calls.
+Combine entries from each feed listed, in the order received, into a single feed.
+RSS feeds will automatically be converted to Atom before their entries are
+added.
+
+Returns the feed itself so that you can chain method calls.
 
 =head2 C<head(Int $limit=10)>
 
-Outputs C<$limit> entries from the top of the feed, where C<$limit> defaults to
+Output C<$limit> entries from the top of the feed, where C<$limit> defaults to
 10. If your entries are sorted in standard reverse chronological order, this
 will pull the C<$limit> most recent entries.
 
-Like most methods, returns the pipe itself so that you can chain method calls.
+Returns the feed itself so that you can chain method calls.
 
 =head2 C<sort>
 
-Sorts the feed's entries in standard reverse chronological order. Sorry, no 
+Sort the feed's entries in standard reverse chronological order. Sorry, no 
 other sort order is possible in this release, but that is considered a bug 
 and will be corrected in the future.
 
-Like most methods, returns the pipe itself so that you can chain method calls.
+Returns the feed itself so that you can chain method calls.
 
 =head2 C<tail(Int $limit=10)>
 
-Outputs C<$limit> entries from the end of the feed, where C<$limit> defaults to
+Output C<$limit> entries from the end of the feed, where C<$limit> defaults to
 10. If your entries are sorted in standard reverse chronological order, this
 will pull the C<$limit> oldest entries.
 
-Like most methods, returns the pipe itself so that you can chain method calls.
+Returns the feed itself so that you can chain method calls.
 
 =head1 OTHER METHODS
 
@@ -144,10 +220,28 @@ must not be used in a filter chain (except maybe at the end).>
 
 =head2 C<as_xml>
 
-Serialize the feed object to an XML string and return the string. If you call
-this in a chain, it must be the last thing you do, since it returns a string
-and not the pipe itself.
+Serialize the feed object to an XML (Atom 1.0) string and return the string. 
+(Delegated to L<XML::Atom>.)
 
+=head2 C<count>
+
+Returns the number of entries in the feed.
+
+=head2 C<entries>
+
+Returns the list of L<XML::Atom::Entry> objects in the feed.
+
+=head2 C<id>
+
+Returns the id of the feed.
+
+=head2 C<title>
+
+Returns the title of the feed.
+
+=head2 C<updated>
+
+Returns a DateTime object representing the updated time of the feed.
 
 =head1 AUTHOR
 
