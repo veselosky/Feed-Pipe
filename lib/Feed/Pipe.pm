@@ -329,14 +329,20 @@ Returns the number of entries in the feed.
 
 Returns the list of L<XML::Atom::Entry> objects in the feed.
 
+=head1 CONTRIBUTE OR COMPLAIN
+
+Report bugs via RT, CPAN's request tracker
+    http://rt.cpan.org/NoAuth/Bugs.html?Dist=Feed-Pipe
+
+Clone the code from github:
+    git://github.com/veselosky/Feed-Pipe.git
+
+Watch Development:
+    http://github.com/veselosky/Feed-Pipe
+
 =head1 AUTHOR
 
 Vince Veselosky, C<< <vince at control-escape.com> >>
-
-=head1 BUGS
-
-Oh yeah, there are bugs. Many big nasty ones. In fact, this is just one big
-bundle of bugs. Stay away.
 
 =head1 COPYRIGHT & LICENSE
 
