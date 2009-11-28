@@ -4,7 +4,7 @@ use Moose;
 use Feed::Pipe::Types qw(ArrayRef AtomEntry AtomFeed Datetime Str Uri);
 use Log::Any;
 
-our $VERSION = '0.001';
+our $VERSION = '1.0';
 
 # Code
 use DateTime;
@@ -17,14 +17,6 @@ $XML::Atom::DefaultVersion = 1.0;
 #--------------------------------------------------------------------
 # ATTRIBUTES
 #--------------------------------------------------------------------
-# has feed => 
-#     ( is => 'rw'
-#     , isa => AtomFeed
-#     , lazy_build => 1
-#     # Note: entries() is handled by _entries below
-#     , handles => [qw(as_xml author authors base category categories contributor contributors generator icon lang link links logo rights subtitle )]
-#     );
-# sub _build_feed { XML::Atom::Feed->new() }
 
 has id => (is => 'rw', isa => Str, lazy_build => 1);
 sub _build_id { 
@@ -75,14 +67,20 @@ sub cat {
     my ($proto, @feed_urls) = @_;
     my $self = ref($proto) ? $proto : $proto->new();
     my $logger = Log::Any->get_logger(category => ref($self));
-    $logger->debugf('cat: %s', \@feed_urls);
+    #$logger->debugf('cat: %s', \@feed_urls);
     
-    # This is a horrible, terrible HACK. I wish I were smarter.
-    # Use XML::Feed to convert from RSS to Atom.
     foreach my $f (@feed_urls) {
-        my $feed = XML::Feed->parse($f);
-        foreach my $entry ($feed->entries) {
-            $self->_push( $entry->convert('Atom')->unwrap );
+        if (ref($f) eq 'Feed::Pipe' or ref($f) eq 'XML::Atom::Feed') {
+            $logger->debug("Adding a Feed::Pipe or XML::Atom::Feed");
+            $self->_push($f->entries);
+        } elsif (ref($f) =~ /^XML::Feed/) {
+            $logger->debug("Adding a XML::Feed");
+            $self->_push( map {$_->convert('Atom')->unwrap} $f->entries );
+        } else {
+            # Use XML::Feed to convert from RSS to Atom.
+            $logger->debug("Using XML::Feed for conversion");
+            my $feed = XML::Feed->parse($f);
+            $self->_push( map {$_->convert('Atom')->unwrap} $feed->entries );
         }
     }
     return $self; # ALWAYS return $self for chaining!
@@ -119,6 +117,19 @@ sub grep {
     my ($self, $sub) = @_;
     $sub ||= sub { $_->content||$_->summary };
     $self->_entries([$self->_grep($sub)]);
+    return $self; # ALWAYS return $self for chaining!
+}
+
+sub map {
+    my ($self, $sub) = @_;
+    unless ($sub) {
+        my $logger = Log::Any->get_logger(category => ref($self));
+        my ($package, $file, $line) = caller();
+        $logger->warning('Ignoring map() without a code reference at %s:%s',$file,$line);
+        warn sprintf('Ignoring map() without a code reference at %s:%s',$file,$line);
+        return $self;
+    }
+    $self->_entries([$self->_map($sub)]);
     return $self; # ALWAYS return $self for chaining!
 }
 
@@ -194,6 +205,10 @@ return an instance.
 
 =head2 C<cat(@feeds)>
 
+    my $pipe = Feed::Pipe->new(title => 'Test')->cat(@feeds);
+    # This also works:
+    my $pipe = Feed::Pipe->cat(@feeds);
+
 Combine entries from each feed listed, in the order received, into a single feed.
 RSS feeds will automatically be converted to Atom before their entries are
 added. (NOTE: Some data may be lost in the conversion. See L<XML::Feed>.)
@@ -201,11 +216,12 @@ added. (NOTE: Some data may be lost in the conversion. See L<XML::Feed>.)
 If called as a class method, will implicitly call C<new> with no options
 to return an instance before adding the passed C<@feeds>.
 
-Returns the feed pipe itself so that you can chain method calls.
+Values passed to C<cat> may be an instance of Feed::Pipe, XML::Atom::Feed,
+XML::Feed, or URI, a reference to a scalar variable containing the XML to
+parse, or a filename that contains the XML to parse. URI objects will be 
+dereferenced and fetched, and the result parsed.
 
-    my $pipe = Feed::Pipe->new(title => 'Test')->cat(@feeds);
-    # This also works:
-    my $pipe = Feed::Pipe->cat(@feeds);
+Returns the feed pipe itself so that you can chain method calls.
 
 =head2 C<grep(sub{})>
 
@@ -224,6 +240,21 @@ Returns the feed pipe itself so that you can chain method calls.
 Output C<$limit> entries from the top of the feed, where C<$limit> defaults to
 10. If your entries are sorted in standard reverse chronological order, this
 will pull the C<$limit> most recent entries.
+
+Returns the feed pipe itself so that you can chain method calls.
+
+=head2 C<map(\&mapfunction)>
+
+    # Converts upper CASE to lower case in each entry title.
+    my $pipe = Feed::Pipe
+    ->cat($feed)
+    ->map( sub { $_->title =~ s/CASE/case/; return $_; } )
+    ;
+
+Constructs a new list of entries composed of the return values from 
+C<mapfunction>. The mapfunc I<must> return one or more XML::Atom::Entry
+objects, or an empty list. Within the C<mapfunction> C<$_> will be
+aliased to the XML::Atom::Entry it is visiting.
 
 Returns the feed pipe itself so that you can chain method calls.
 

@@ -35,7 +35,8 @@ is $first->published, '2009-04-26T21:38:26Z', 'correct date on first entry';
 ($first) = $feed->_entry_at(-1);
 is $first->published, '2009-11-07T10:40:07Z', 'correct date on last entry';
 
-diag join "\n", map { $_->updated||$_->published } $feed->entries;
+$logger->debug( join "\n", map { $_->updated||$_->published } $feed->entries) 
+    if $logger->is_debug;
 
 
 

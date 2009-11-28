@@ -1,9 +1,11 @@
-Feed-Pipe
+Feed-Pipe: Pipe Atom/RSS feeds through UNIX-style high-level filters
 
 Everyone love pipes and filters. They are what makes a UNIX shell such a 
 beautiful, powerful thing. All I wanted was the equivalent of cat, grep, sort,
 and other standard utilities, but applied to RSS feeds. I couldn't find it,
-so I'm creating it.
+so I built it.
+
+This module is a Feed model that can mimic the functionality of standard UNIX pipe and filter style text processing tools. Instead of operating on lines from text files, it operates on entries from Atom (or RSS) feeds. The idea is to provide a high-level tool set for combining, filtering, and otherwise manipulating bunches of Atom data from various feeds.
 
 INSTALLATION
 
