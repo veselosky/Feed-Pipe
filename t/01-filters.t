@@ -62,7 +62,7 @@ my $atom = $feed->as_atom_obj;
 isa_ok $atom, 'XML::Atom::Feed', 'as_atom_obj return value';
 
 my $xml = $feed->as_xml;
-my $atom = XML::Atom::Feed->new(\$xml);
+$atom = XML::Atom::Feed->new(\$xml);
 isa_ok($atom, 'XML::Atom::Feed', 'round trip serialization appears to work,');
 is $atom->title, 'Test Feed', 'title set and preserved';
 
