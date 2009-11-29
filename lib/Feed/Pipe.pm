@@ -4,7 +4,7 @@ use Moose;
 use Feed::Pipe::Types qw(ArrayRef AtomEntry AtomFeed Datetime Str Uri);
 use Log::Any;
 
-our $VERSION = '1.0';
+our $VERSION = '1.001';
 
 # Code
 use DateTime;
@@ -51,6 +51,7 @@ has _entries =>
         , _shift => 'shift'
         , _shuffle => 'shuffle'
         , _sort_in_place => 'sort_in_place'
+        # man page lies: does NOT work identically to Perl's splice
         # , _splice => 'splice'
         , _unshift => 'unshift'
         }
@@ -175,13 +176,10 @@ Feed::Pipe - Pipe Atom/RSS feeds through UNIX-style high-level filters
         ->head
         ;
     my $feed = $pipe->as_atom_obj; # returns XML::Atom::Feed
+    # Add feed details such as author and self link. Then...
     print $feed->as_xml;
 
 =head1 DESCRIPTION
-
-B<WARNING: This API is still evolving. I am still noodling. Do not use this
-in production unless your name is Veselosky, or you are willing to refactor
-at my whim.>
 
 This module is a Feed model that can mimic the functionality of standard UNIX pipe and filter style text processing tools. Instead of operating on lines from text files, it operates on entries from Atom (or RSS) feeds. The idea is to provide a high-level tool set for combining, filtering, and otherwise manipulating bunches of Atom data from various feeds.
 
@@ -225,13 +223,16 @@ Returns the feed pipe itself so that you can chain method calls.
 
 =head2 C<grep(sub{})>
 
+    # Keeps all entries with the word "Keep" in the title
+    my $pipe = Feed::Pipe
+    ->cat($feed)
+    ->grep( sub { $_->title =~ /Keep/ } )
+    ;
+
 Filters the list of entries to those for which the passed function returns
 true. If no function is passed, the default is to keep entries which have
 C<content> (or a C<summary>). The function should test the entry object 
 aliased in C<$_> which will be a L<XML::Atom::Entry>.
-
-    # Keeps all entries with the word "Keep" in the title
-    Feed::Pipe->new->cat($feed)->grep( sub { $_->title =~ /Keep/ } );
 
 Returns the feed pipe itself so that you can chain method calls.
 
@@ -265,14 +266,17 @@ is just for completeness, you could easily do this with C<sort> instead.
 
 =head2 C<sort(sub{})>
 
+    # Returns a feed with entries sorted by title
+    my $pipe = Feed::Pipe
+    ->cat($feed)
+    ->sort(sub{$_[0]->title cmp $_[1]->title})
+    ;
+
 Sort the feed's entries using the comparison function passed as the argument.
 If no function is passed, sorts in standard reverse chronological order.
 The sort function should be as described in Perl's L<sort>, but using
 C<$_[0]> and C<$_[1]> in place of C<$a> and  C<$b>, respectively. The two
 arguments will be L<XML::Atom::Entry> objects.
-
-    # Returns a feed with entries sorted by title
-    Feed::Pipe->cat($feed)->sort(sub{$_[0]->title cmp $_[1]->title});
 
 Returns the feed pipe itself so that you can chain method calls.
 
@@ -315,7 +319,7 @@ Returns the L<XML::Atom::Feed> object represented by the feed pipe.
 =head2 C<as_xml>
 
 Serialize the feed object to an XML (Atom 1.0) string and return the string. 
-Equivalent to calling C<$feed-E<gt>as_atom_obj-E<gt>as_xml>. NOTE: The current
+Equivalent to calling C<$pipe-E<gt>as_atom_obj-E<gt>as_xml>. NOTE: The current
 implementation does not guarantee that the resultant output will be valid Atom.
 In particular, you are likely to be missing required C<author> and C<link>
 elements. For the moment, you should use C<as_atom_obj> and manipulate the
