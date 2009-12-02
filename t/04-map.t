@@ -1,13 +1,13 @@
 #!/usr/bin/perl
 use strict;
 use Test::More tests =>
-17;
+15;
 use FindBin;
 use Path::Class;
-use Log::Any::Adapter;
-use Log::Any::Adapter::Test::Memory;
-Log::Any::Adapter->set('Test::Memory');
-my $logger = Log::Any->get_logger(category => 'Feed::Pipe');
+# use Log::Any::Adapter;
+# use Log::Any::Adapter::Test::Memory;
+# Log::Any::Adapter->set('Test::Memory');
+# my $logger = Log::Any->get_logger(category => 'Feed::Pipe');
 
 use_ok('Feed::Pipe');
 
@@ -39,15 +39,9 @@ for my $entry ($feed->entries) {
 #diag join "\n", map { $_->title } $feed->entries;
 
 my $gotit = eval {require Test::Warn};
-SKIP: { skip 'Test::Warn not installed', 2 if $@;
+SKIP: { skip 'Test::Warn not installed', 1 if $@;
     Test::Warn::warning_like(sub{$feed->map}, qr/Ignoring map/, 'map warns when no coderef passed');
-    like $logger->{msgs}[-1]{text}, qr/Ignoring map/, 'map logs warning when no coderef passed';
-}
-
-SKIP: { skip 'tested with Test::Warn already', 1 if $gotit;
-    diag 'Warning about "Ignoring map()" is normal, since you do not have Test::Warn';
-    $feed->map;
-    like $logger->{msgs}[-1]{text}, qr/Ignoring map/, 'map logs warning when no coderef passed';
+#    like $logger->{msgs}[-1]{text}, qr/Ignoring map/, 'map logs warning when no coderef passed';
 }
 
 $feed->map(\&duplicate);
