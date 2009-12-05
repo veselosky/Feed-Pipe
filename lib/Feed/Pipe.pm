@@ -4,7 +4,7 @@ use Moose;
 use Feed::Pipe::Types qw(ArrayRef AtomEntry AtomFeed Datetime Str Uri);
 use Log::Any;
 
-our $VERSION = '1.001';
+our $VERSION = '1.002';
 
 # Code
 use DateTime;

@@ -6,7 +6,7 @@ __PACKAGE__->provide_types_from(qw(
     Feed::Pipe::Typedefs
 ));
 
-our $VERSION = '1.001';
+our $VERSION = '1.002';
 
 
 1;

@@ -1,7 +1,7 @@
 package Feed::Pipe::Typedefs;
 use strict;
 
-our $VERSION = '1.001';
+our $VERSION = '1.002';
 
 use DateTime;
 use DateTime::Locale;
