@@ -378,5 +378,3 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 
 =cut
-
-1; # End of Feed::Pipe

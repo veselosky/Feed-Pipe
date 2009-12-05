@@ -4,11 +4,11 @@ use Test::More tests =>
 13;
 use FindBin;
 use Path::Class;
-use Log::Log4perl qw(:easy);
-use Log::Any::Adapter;
-Log::Log4perl->easy_init($WARN);
-Log::Any::Adapter->set('Log4perl');
-my $logger = Log::Any->get_logger;
+# use Log::Log4perl qw(:easy);
+# use Log::Any::Adapter;
+# Log::Log4perl->easy_init($WARN);
+# Log::Any::Adapter->set('Log4perl');
+# my $logger = Log::Any->get_logger;
 
 use_ok('Feed::Pipe');
 
@@ -30,8 +30,7 @@ $feed->sort;
 ($first) = $feed->entries;
 #is $first->published, '2009-11-14T20:25:01Z', 'sorted most recent first';
 is $first->published, '2009-11-18T03:48:04Z', 'sorted most recent first';
-$logger->debug( join "\n", map { $_->updated||$_->published } $feed->entries) 
-    if $logger->is_debug;
+# $logger->debug( join "\n", map { $_->updated||$_->published } $feed->entries) if $logger->is_debug;
 
 $feed->tail(7);
 ($first) = $feed->entries;
@@ -47,16 +46,14 @@ diag $first->title if $first->content||$first->summary;
 $feed->reverse;
 ($first) = $feed->entries;
 is $first->published, '2009-04-26T21:38:26Z', 'reverse';
-$logger->debug( join "\n", map { $_->updated||$_->published } $feed->entries) 
-    if $logger->is_debug;
+# $logger->debug( join "\n", map { $_->updated||$_->published } $feed->entries) if $logger->is_debug;
 
 # Item with date 2009-11-12T20:47:42Z has no content or summary, should
 # be filtered out.
 $feed->grep;
 $first = $feed->_entry_at(-1);
 is $first->published, '2009-11-07T10:40:07Z', 'grep removes no-content items by default';
-$logger->debug( join "\n", map { $_->updated||$_->published } $feed->entries) 
-    if $logger->is_debug;
+# $logger->debug( join "\n", map { $_->updated||$_->published } $feed->entries) if $logger->is_debug;
 
 my $atom = $feed->as_atom_obj;
 isa_ok $atom, 'XML::Atom::Feed', 'as_atom_obj return value';

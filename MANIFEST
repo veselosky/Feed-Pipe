@@ -1,4 +1,3 @@
-Build.PL
 Changes
 ignore.txt
 inc/Module/AutoInstall.pm
@@ -23,9 +22,14 @@ t/00-load.t
 t/01-filters.t
 t/02-chaining.t
 t/03-cat-objects.t
+t/04-map.t
 t/atom1.atom
 t/rss1.xml
 t/rss2wp.xml
+xt/atom1.atom
 xt/boilerplate.t
+xt/logging.t
 xt/pod-coverage.t
 xt/pod.t
+xt/rss1.xml
+xt/rss2wp.xml
