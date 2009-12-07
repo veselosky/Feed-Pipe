@@ -5,6 +5,8 @@ name     'Feed-Pipe';
 all_from 'lib/Feed/Pipe.pm';
 author   q{Vince Veselosky <vince@control-escape.com>};
 license  'mit';
+repository 'git://github.com/veselosky/Feed-Pipe.git';
+homepage 'http://github.com/veselosky/Feed-Pipe';
 
 # For Feed::Pipe
 requires 'Data::UUID';
