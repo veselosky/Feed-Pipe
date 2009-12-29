@@ -37,6 +37,7 @@ for my $entry ($feed->entries) {
     is length($entry->title), 10, 'filtered';
 }
 #diag join "\n", map { $_->title } $feed->entries;
+# diag $feed->as_xml;
 
 my $gotit = eval {require Test::Warn};
 SKIP: { skip 'Test::Warn not installed', 1 if $@;

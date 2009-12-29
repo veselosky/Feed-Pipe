@@ -4,12 +4,13 @@ use Test::More tests =>
 13;
 use FindBin;
 use Path::Class;
+
 # use Log::Log4perl qw(:easy);
 # use Log::Any::Adapter;
-# Log::Log4perl->easy_init($WARN);
+# Log::Log4perl->easy_init($DEBUG);
 # Log::Any::Adapter->set('Log4perl');
 # my $logger = Log::Any->get_logger;
-
+# 
 use_ok('Feed::Pipe');
 
 my @feeds = 

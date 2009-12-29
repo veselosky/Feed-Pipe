@@ -15,7 +15,7 @@ requires 'Log::Any', '0.05';
 requires 'Moose', '0.92';
 requires 'MooseX::Types', '0.19';
 requires 'XML::Feed', '0.43';
-requires 'XML::Atom', '0.35';
+requires 'XML::Atom', '0.37';
 
 test_requires 'Test::More';
 test_requires 'Path::Class';

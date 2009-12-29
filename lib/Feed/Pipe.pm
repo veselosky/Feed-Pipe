@@ -4,7 +4,7 @@ use Moose;
 use Feed::Pipe::Types qw(ArrayRef AtomEntry AtomFeed Datetime Str Uri);
 use Log::Any;
 
-our $VERSION = '1.002';
+our $VERSION = '1.003';
 
 # Code
 use DateTime;
@@ -13,6 +13,7 @@ use XML::Feed;
 use XML::Atom;
 use XML::Atom::Feed;
 $XML::Atom::DefaultVersion = 1.0;
+$XML::Atom::ForceUnicode = 1;
 
 #--------------------------------------------------------------------
 # ATTRIBUTES
@@ -57,6 +58,9 @@ has _entries =>
         }
     );
 
+has _logger => (is  => 'ro', lazy_build => 1);
+sub _build__logger {Log::Any->get_logger(category => __PACKAGE__);}
+
 #--------------------------------------------------------------------
 # FILTER METHODS
 #--------------------------------------------------------------------
@@ -67,25 +71,32 @@ has _entries =>
 sub cat {
     my ($proto, @feed_urls) = @_;
     my $self = ref($proto) ? $proto : $proto->new();
-    my $logger = Log::Any->get_logger(category => ref($self));
-    #$logger->debugf('cat: %s', \@feed_urls);
+    #$self->_logger->debugf('cat: %s', \@feed_urls);
     
     foreach my $f (@feed_urls) {
-        if (ref($f) eq 'Feed::Pipe' or ref($f) eq 'XML::Atom::Feed') {
-            $logger->debug("Adding a Feed::Pipe or XML::Atom::Feed");
+        if (ref($f) eq 'Feed::Pipe') {
+            $self->_logger->debug("Adding a Feed::Pipe");
             $self->_push($f->entries);
+            
+        } elsif ( ref($f) eq 'XML::Atom::Feed') {
+            $self->_add_atom($f);
+            $self->_logger->debug("Adding a XML::Atom::Feed");
+            
         } elsif (ref($f) =~ /^XML::Feed/) {
-            $logger->debug("Adding a XML::Feed");
-            $self->_push( map {$_->convert('Atom')->unwrap} $f->entries );
+            $self->_logger->debug("Adding a XML::Feed");
+            $f = $self->_xf_to_atom($f);
+            $self->_add_atom($f);
+            
         } else {
-            # Use XML::Feed to convert from RSS to Atom.
-            $logger->debug("Using XML::Feed for conversion");
+            $self->_logger->debug("Using XML::Feed for parsing");
             my $feed = XML::Feed->parse($f);
-            $self->_push( map {$_->convert('Atom')->unwrap} $feed->entries );
+            $feed = $self->_xf_to_atom($feed);
+            $self->_add_atom($feed);
         }
     }
     return $self; # ALWAYS return $self for chaining!
 }
+
 
 sub sort {
     my ($self, $sub) = @_;
@@ -124,9 +135,8 @@ sub grep {
 sub map {
     my ($self, $sub) = @_;
     unless ($sub) {
-        my $logger = Log::Any->get_logger(category => ref($self));
         my ($package, $file, $line) = caller();
-        $logger->warning('Ignoring map() without a code reference at %s:%s',$file,$line);
+        $self->_logger->warning('Ignoring map() without a code reference at %s:%s',$file,$line);
         warn sprintf('Ignoring map() without a code reference at %s:%s',$file,$line);
         return $self;
     }
@@ -153,6 +163,42 @@ sub as_atom_obj {
 sub as_xml {
     my ($self) = @_;
     return $self->as_atom_obj->as_xml;
+}
+
+#--------------------------------------------------------------------
+# PRIVATE METHODS
+#--------------------------------------------------------------------
+# This code stolen from XML::Feed::convert and mangled slightly.
+sub _xf_to_atom {
+    my ($self, $feed) = @_;
+    return $feed->{atom} if $feed->format eq 'Atom';
+    
+    my $new = XML::Feed->new('Atom');
+    for my $field (qw( title link self_link description language author copyright modified generator )) {
+        my $val = $feed->$field();
+        next unless defined $val;
+        $new->$field($val);
+    }
+    for my $entry ($feed->entries) {
+        $new->add_entry($entry->convert('Atom'));
+    }
+    return $new->{atom};
+}
+
+sub _add_atom {
+    my ($self, $feed) = @_;
+    my @entries = $feed->entries; # This clones the entry nodes.
+
+    # Clean out the entries so we can use $feed as source
+    for my $node ($feed->elem->childNodes) {
+        if ($node->nodeName eq 'entry') {
+            #$self->_logger->debug("Unbinding node ".$node->nodeName);
+            $node->unbindNode();
+        } else {
+            #$self->_logger->debug("Keeping node ".$node->nodeName);
+        }
+    }
+    $self->_push( map {$_->source($feed) unless $_->source; $_ } @entries);
 }
 
 

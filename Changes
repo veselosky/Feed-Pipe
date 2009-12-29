@@ -1,5 +1,12 @@
 Revision history for Feed-Pipe
 
+1.003   2009-12-29
+        - Entries now get a source element injected when they are added
+          to the pipe. This is only marginally useful for non-atom feeds,
+          but should allow tracing an entry back to its original source.
+        - The source feature requires upgrading to XML::Atom 0.37 to fix
+          an Atom bug.
+        
 1.002   2009-12-04
         - RT 52449: Errant Build.PL script was not up to date. Removed.
           Only Module::Install is supported in this version.
